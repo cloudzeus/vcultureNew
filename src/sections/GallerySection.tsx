@@ -156,6 +156,7 @@ export default function GallerySection({ className = '' }: GallerySectionProps) 
                 <button
                   onClick={() => handlePlayVideo(projects[0].video, projects[0].title)}
                   className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 rounded-full bg-primary/90 flex items-center justify-center transition-transform hover:scale-110 z-20"
+                  aria-label={`Play video: ${projects[0].title}`}
                 >
                   <Play className="w-8 h-8 text-primary-foreground ml-1" fill="currentColor" />
                 </button>
@@ -168,7 +169,7 @@ export default function GallerySection({ className = '' }: GallerySectionProps) 
                   <h3 className="text-3xl md:text-4xl font-bold text-white mb-2">
                     {projects[0].title}
                   </h3>
-                  <p className="text-white/60">{projects[0].meta}</p>
+                  <p className="text-zinc-300">{projects[0].meta}</p>
                 </div>
               </div>
             </div>
@@ -192,6 +193,7 @@ export default function GallerySection({ className = '' }: GallerySectionProps) 
                   <button
                     onClick={() => handlePlayVideo(projects[1].video, projects[1].title)}
                     className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-primary/90 flex items-center justify-center transition-transform hover:scale-110 z-20"
+                    aria-label={`Play video: ${projects[1].title}`}
                   >
                     <Play className="w-5 h-5 text-primary-foreground ml-0.5" fill="currentColor" />
                   </button>
@@ -203,7 +205,7 @@ export default function GallerySection({ className = '' }: GallerySectionProps) 
                     <h3 className="text-xl font-semibold text-white mb-1">
                       {projects[1].title}
                     </h3>
-                    <p className="text-sm text-white/60">{projects[1].meta}</p>
+                    <p className="text-sm text-zinc-300">{projects[1].meta}</p>
                   </div>
                 </div>
               </div>
@@ -225,6 +227,7 @@ export default function GallerySection({ className = '' }: GallerySectionProps) 
                   <button
                     onClick={() => handlePlayVideo(projects[2].video, projects[2].title)}
                     className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-primary/90 flex items-center justify-center transition-transform hover:scale-110 z-20"
+                    aria-label={`Play video: ${projects[2].title}`}
                   >
                     <Play className="w-5 h-5 text-primary-foreground ml-0.5" fill="currentColor" />
                   </button>
@@ -236,7 +239,7 @@ export default function GallerySection({ className = '' }: GallerySectionProps) 
                     <h3 className="text-xl font-semibold text-white mb-1">
                       {projects[2].title}
                     </h3>
-                    <p className="text-sm text-white/60">{projects[2].meta}</p>
+                    <p className="text-sm text-zinc-300">{projects[2].meta}</p>
                   </div>
                 </div>
               </div>
@@ -248,7 +251,7 @@ export default function GallerySection({ className = '' }: GallerySectionProps) 
         <button
           ref={linkRef}
           onClick={() => navigate('/movies')}
-          className="absolute bottom-8 right-[8vw] flex items-center gap-2 text-white/60 hover:text-primary transition-colors z-20"
+          className="absolute bottom-8 right-[8vw] flex items-center gap-2 text-zinc-300 hover:text-primary transition-colors z-20"
         >
           <span className="text-sm">Δες όλη τη δουλειά</span>
           <ArrowRight size={16} />

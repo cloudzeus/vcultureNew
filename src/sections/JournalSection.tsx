@@ -74,7 +74,7 @@ export default function JournalSection({ className = '' }: JournalSectionProps) 
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
             Journal of voices
           </h2>
-          <p className="text-lg text-white/60">
+          <p className="text-lg text-zinc-300">
             Άρθρα, σημειώσεις από τα γυρίσματα και φωτογραφικά δοκίμια που φωτίζουν όσα δεν φαίνονται στην οθόνη.
           </p>
         </div>
@@ -104,7 +104,7 @@ export default function JournalSection({ className = '' }: JournalSectionProps) 
                     <span className="text-xs font-medium tracking-wider uppercase text-primary">
                       {article.category}
                     </span>
-                    <span className="flex items-center gap-1 text-xs text-white/40">
+                    <span className="flex items-center gap-1 text-xs text-zinc-400">
                       <Clock className="w-3 h-3" />
                       {article.readTime}
                     </span>
@@ -114,7 +114,7 @@ export default function JournalSection({ className = '' }: JournalSectionProps) 
                     {article.title}
                   </h3>
 
-                  <div className="flex items-center gap-2 text-sm text-white/40 group-hover:text-primary transition-colors">
+                  <div className="flex items-center gap-2 text-sm text-zinc-400 group-hover:text-primary transition-colors">
                     <span>Διάβασε το άρθρο</span>
                     <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                   </div>
@@ -132,7 +132,7 @@ export default function JournalSection({ className = '' }: JournalSectionProps) 
           >
             Δες όλα τα άρθρα
           </button>
-          <p className="text-white/60">
+          <p className="text-zinc-400">
             «Αν ένα κείμενο εδώ σε άγγιξε, μοιράσου το. Κάπως έτσι αρχίζει η αλλαγή.»
           </p>
         </div>

@@ -112,7 +112,7 @@ export default function StudioSection({ className = '' }: StudioSectionProps) {
             </h2>
 
             {/* Body */}
-            <p className="text-lg text-white/70 leading-relaxed">
+            <p className="text-lg text-zinc-300 leading-relaxed">
               Συνεργαζόμαστε με ΜΚΟ, ιδρύματα και συνειδητές εταιρείες για να
               μετατρέπουμε πολύπλοκες πραγματικότητες σε σαφείς, ανθρώπινες
               ιστορίες—χωρίς να χάνουμε τη νuance.
@@ -133,13 +133,14 @@ export default function StudioSection({ className = '' }: StudioSectionProps) {
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
-                
+
                 {/* Play button */}
-                <a 
+                <a
                   href="https://vculture.b-cdn.net/video/nefeli%203%20trailer.mp4"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 rounded-full bg-primary/90 flex items-center justify-center transition-transform hover:scale-110"
+                  aria-label="Play video: Οι σκέψεις της Νεφέλης"
                 >
                   <Play className="w-6 h-6 text-primary-foreground ml-1" fill="currentColor" />
                 </a>
@@ -153,7 +154,7 @@ export default function StudioSection({ className = '' }: StudioSectionProps) {
                 <p className="text-sm text-muted-foreground mb-4">
                   Μικρού μήκους ταινία • Σχολικός εκφοβισμός
                 </p>
-                <p className="text-sm text-white/60 mb-4">
+                <p className="text-sm text-zinc-400 mb-4">
                   «Για τον σχολικό εκφοβισμό και τις σιωπές που τον τρέφουν»
                 </p>
                 <div className="flex items-center gap-2">

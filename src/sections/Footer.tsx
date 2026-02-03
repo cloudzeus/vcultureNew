@@ -58,7 +58,7 @@ export default function Footer({ className = '' }: FooterProps) {
             </a>
 
             {/* Tagline */}
-            <p className="text-white/60 max-w-md mb-6">
+            <p className="text-zinc-400 max-w-md mb-6">
               Κοινωνική βιντεοπαραγωγή με σαφήνεια και φροντίδα.
             </p>
 
@@ -83,7 +83,7 @@ export default function Footer({ className = '' }: FooterProps) {
                     e.preventDefault();
                     scrollToSection(link.href);
                   }}
-                  className="text-sm text-white/60 hover:text-white transition-colors"
+                  className="text-sm text-zinc-400 hover:text-white transition-colors"
                 >
                   {link.label}
                 </a>
@@ -97,7 +97,7 @@ export default function Footer({ className = '' }: FooterProps) {
                   key={social.label}
                   href={social.href}
                   aria-label={social.label}
-                  className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/60 hover:text-white hover:border-white/30 transition-all"
+                  className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-zinc-400 hover:text-white hover:border-white/30 transition-all"
                 >
                   <social.icon className="w-4 h-4" />
                 </a>
@@ -108,10 +108,10 @@ export default function Footer({ className = '' }: FooterProps) {
 
         {/* Bottom Bar */}
         <div className="mt-16 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-white/40">
+          <p className="text-sm text-zinc-500">
             © 2026 vculture. Με επιφύλαξη παντός δικαιώματος.
           </p>
-          <p className="text-sm text-white/40">
+          <p className="text-sm text-zinc-500">
             Φτιαγμένο με φροντίδα για ιστορίες που μετράνε.
           </p>
         </div>
