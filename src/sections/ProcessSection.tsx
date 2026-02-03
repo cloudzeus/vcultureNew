@@ -108,7 +108,7 @@ export default function ProcessSection({ className = '' }: ProcessSectionProps) 
           {/* Body */}
           <p
             ref={bodyRef}
-            className="text-lg md:text-xl text-white/70 max-w-2xl mx-auto leading-relaxed"
+            className="text-lg md:text-xl text-zinc-300 max-w-2xl mx-auto leading-relaxed"
           >
             Εμείς διαλέγουμε τους ανθρώπους.
           </p>

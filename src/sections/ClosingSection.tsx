@@ -102,7 +102,7 @@ export default function ClosingSection({ className = '' }: ClosingSectionProps) 
             <br />
             πάντα από μια συζήτηση.
             <br />
-            <span className="text-3xl md:text-5xl font-medium text-white/80">
+            <span className="text-3xl md:text-5xl font-medium text-zinc-200">
               Ας είναι αυτή η πρώτη.
             </span>
           </h2>

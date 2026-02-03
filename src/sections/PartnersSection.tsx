@@ -107,12 +107,12 @@ export default function PartnersSection({ className = '' }: PartnersSectionProps
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-8">
               Συνεργασίες με
             </h2>
-            
+
             <ul className="space-y-4">
               {partners.map((partner) => (
                 <li
                   key={partner}
-                  className="text-xl text-white/70 hover:text-white transition-colors"
+                  className="text-xl text-zinc-300 hover:text-white transition-colors"
                 >
                   {partner}
                 </li>
@@ -129,11 +129,11 @@ export default function PartnersSection({ className = '' }: PartnersSectionProps
               <h3 className="text-2xl font-semibold text-white mb-4">
                 Ας μιλήσουμε.
               </h3>
-              
-              <p className="text-white/60 mb-6">
+
+              <p className="text-zinc-300 mb-6">
                 Για συνεργασίες, καμπάνιες, προβολές ή εκπαιδευτικές δράσεις, στείλε ένα μήνυμα.
               </p>
-              
+
               <div className="flex items-center gap-3 mb-6">
                 <Mail className="w-5 h-5 text-primary" />
                 <a
@@ -143,7 +143,7 @@ export default function PartnersSection({ className = '' }: PartnersSectionProps
                   hello@vculture.studio
                 </a>
               </div>
-              
+
               <button className="btn-primary w-full justify-center">
                 <Calendar className="w-4 h-4 mr-2" />
                 Κλείσε ραντεβού

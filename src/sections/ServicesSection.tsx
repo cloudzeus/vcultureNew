@@ -106,7 +106,7 @@ export default function ServicesSection({ className = '' }: ServicesSectionProps
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
             Τι δημιουργούμε
           </h2>
-          <p className="text-lg text-white/60 max-w-xl">
+          <p className="text-lg text-zinc-300 max-w-xl">
             Συνεργασίες με ΜΚΟ, οργανισμούς, ιδρύματα και brands που θέλουν να πουν μια κοινωνική ιστορία με σεβασμό και αλήθεια.
           </p>
         </div>
@@ -130,7 +130,7 @@ export default function ServicesSection({ className = '' }: ServicesSectionProps
               </h3>
 
               {/* Description */}
-              <p className="text-white/60 text-sm leading-relaxed mb-6">
+              <p className="text-zinc-300 text-sm leading-relaxed mb-6">
                 {service.description}
               </p>
 
@@ -139,7 +139,7 @@ export default function ServicesSection({ className = '' }: ServicesSectionProps
                 {service.bullets.map((bullet) => (
                   <li
                     key={bullet}
-                    className="text-sm text-white/40 flex items-center gap-2"
+                    className="text-sm text-zinc-400 flex items-center gap-2"
                   >
                     <span className="w-1 h-1 rounded-full bg-primary" />
                     {bullet}

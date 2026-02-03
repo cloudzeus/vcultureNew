@@ -103,7 +103,7 @@ export default function BTSSection({ className = '' }: BTSSectionProps) {
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
             Πίσω από τις κάμερες
           </h2>
-          <p className="text-lg text-white/60">
+          <p className="text-lg text-zinc-300">
             Η τεχνική που κάνει την ιστορία να αντέχει.
           </p>
         </div>
@@ -122,7 +122,7 @@ export default function BTSSection({ className = '' }: BTSSectionProps) {
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/30 to-transparent" />
-              
+
               {/* Label */}
               <div className="absolute bottom-4 left-4 right-4">
                 <span className="text-sm font-medium text-white">

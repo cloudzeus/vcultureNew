@@ -96,7 +96,7 @@ export default function StoryFeatureSection({ className = '' }: StoryFeatureSect
         ref={labelRef}
         className="absolute top-[10vh] right-[8vw] z-20"
       >
-        <span className="inline-flex items-center px-4 py-2 rounded-full border border-white/20 text-sm text-white/70">
+        <span className="inline-flex items-center px-4 py-2 rounded-full border border-white/20 text-sm text-zinc-200">
           Ντοκιμαντέρ
         </span>
       </div>
@@ -110,7 +110,7 @@ export default function StoryFeatureSection({ className = '' }: StoryFeatureSect
           <h2 className="text-4xl md:text-6xl font-bold text-white mb-4">
             Ρόδα είναι και γυρίζει
           </h2>
-          <p className="text-lg text-white/60 mb-6">
+          <p className="text-lg text-zinc-300 mb-6">
             Ένα ντοκιμαντέρ για την ισότητα, την αναπηρία και τη δύναμη της ανθρώπινης θέλησης.
           </p>
           <a

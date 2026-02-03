@@ -125,7 +125,7 @@ export default function CTASection({ className = '' }: CTASectionProps) {
           {/* Body */}
           <p
             ref={bodyRef}
-            className="text-lg text-white/60 leading-relaxed mb-10"
+            className="text-lg text-zinc-300 leading-relaxed mb-10"
           >
             Πες μας για το όραμά σου. Θα σχεδιάσουμε ένα πλάνο παραγωγής που ταιριάζει στο timeline, τον budget και τις αξίες σου.
           </p>

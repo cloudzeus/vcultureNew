@@ -156,11 +156,11 @@ export default function ImpactSection({ className = '' }: ImpactSectionProps) {
                   <span className="text-5xl md:text-6xl font-bold text-white">
                     <AnimatedCounter value={metric.value} suffix={metric.suffix} />
                   </span>
-                  <span className="text-lg text-white/60">{metric.label}</span>
+                  <span className="text-lg text-zinc-300">{metric.label}</span>
                 </div>
               ))}
             </div>
-            <p className="text-white/40 mt-8 text-sm italic">
+            <p className="text-zinc-400 mt-8 text-sm italic">
               «Κάθε νούμερο είναι ένας άνθρωπος, μια ανάσα, ένα βλέμμα στην κάμερα.»
             </p>
           </div>
@@ -172,12 +172,12 @@ export default function ImpactSection({ className = '' }: ImpactSectionProps) {
           >
             <div className="glass-card p-8">
               <Quote className="w-10 h-10 text-primary mb-6" />
-              
+
               <blockquote className="text-xl text-white leading-relaxed mb-6">
                 «Δεν κάνουμε video για να "συγκινήσουμε". Κάνουμε video για να γίνει η συγκίνηση αφορμή να αλλάξει κάτι – έστω και σε έναν άνθρωπο.»
               </blockquote>
-              
-              <cite className="text-sm text-white/50 not-italic">
+
+              <cite className="text-sm text-zinc-400 not-italic">
                 — Vasilis Nakis, vculture
               </cite>
             </div>
