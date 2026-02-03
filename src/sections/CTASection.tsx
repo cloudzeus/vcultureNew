@@ -30,60 +30,60 @@ export default function CTASection({ className = '' }: CTASectionProps) {
       // Watermark
       scrollTl.fromTo(
         watermarkRef.current,
-        { scale: 0.92, opacity: 0 },
-        { scale: 1, opacity: 0.04, ease: 'none' },
+        { scale: 0.92, autoAlpha: 0 },
+        { scale: 1, autoAlpha: 0.04, ease: 'none' },
         0
       );
 
       scrollTl.fromTo(
         watermarkRef.current,
-        { opacity: 0.04 },
-        { opacity: 0, ease: 'power2.in' },
+        { autoAlpha: 0.04 },
+        { autoAlpha: 0, ease: 'power2.in' },
         0.8
       );
 
       // Headline
       scrollTl.fromTo(
         headlineRef.current,
-        { y: 50, rotateX: 30, opacity: 0 },
-        { y: 0, rotateX: 0, opacity: 1, ease: 'none' },
+        { y: 50, rotateX: 30, autoAlpha: 0 },
+        { y: 0, rotateX: 0, autoAlpha: 1, ease: 'none' },
         0
       );
 
       scrollTl.fromTo(
         headlineRef.current,
-        { y: 0, opacity: 1 },
-        { y: -30, opacity: 0.2, ease: 'power2.in' },
+        { y: 0, autoAlpha: 1 },
+        { y: -30, autoAlpha: 0.2, ease: 'power2.in' },
         0.7
       );
 
       // Body
       scrollTl.fromTo(
         bodyRef.current,
-        { y: 30, opacity: 0 },
-        { y: 0, opacity: 1, ease: 'none' },
+        { y: 30, autoAlpha: 0 },
+        { y: 0, autoAlpha: 1, ease: 'none' },
         0.08
       );
 
       scrollTl.fromTo(
         bodyRef.current,
-        { opacity: 1 },
-        { opacity: 0.2, ease: 'power2.in' },
+        { autoAlpha: 1 },
+        { autoAlpha: 0.2, ease: 'power2.in' },
         0.72
       );
 
       // CTA
       scrollTl.fromTo(
         ctaRef.current,
-        { y: 30, scale: 0.96, opacity: 0 },
-        { y: 0, scale: 1, opacity: 1, ease: 'back.out(1.4)' },
+        { y: 30, scale: 0.96, autoAlpha: 0 },
+        { y: 0, scale: 1, autoAlpha: 1, ease: 'back.out(1.4)' },
         0.1
       );
 
       scrollTl.fromTo(
         ctaRef.current,
-        { y: 0, opacity: 1 },
-        { y: 20, opacity: 0.2, ease: 'power2.in' },
+        { y: 0, autoAlpha: 1 },
+        { y: 20, autoAlpha: 0.2, ease: 'power2.in' },
         0.74
       );
     }, sectionRef);

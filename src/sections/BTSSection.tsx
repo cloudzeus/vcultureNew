@@ -47,15 +47,15 @@ export default function BTSSection({ className = '' }: BTSSectionProps) {
       // Header
       scrollTl.fromTo(
         headerRef.current,
-        { y: -20, opacity: 0 },
-        { y: 0, opacity: 1, ease: 'none' },
+        { y: -20, autoAlpha: 0 },
+        { y: 0, autoAlpha: 1, ease: 'none' },
         0
       );
 
       scrollTl.fromTo(
         headerRef.current,
-        { opacity: 1 },
-        { opacity: 0, ease: 'power2.in' },
+        { autoAlpha: 1 },
+        { autoAlpha: 0, ease: 'power2.in' },
         0.8
       );
 
@@ -69,15 +69,15 @@ export default function BTSSection({ className = '' }: BTSSectionProps) {
 
         scrollTl.fromTo(
           card,
-          { x: fromX, rotateY: fromRotateY, opacity: 0 },
-          { x: 0, rotateY: 0, opacity: 1, ease: 'none' },
+          { x: fromX, rotateY: fromRotateY, autoAlpha: 0 },
+          { x: 0, rotateY: 0, autoAlpha: 1, ease: 'none' },
           index * 0.04
         );
 
         scrollTl.fromTo(
           card,
-          { y: 0, opacity: 1 },
-          { y: '18vh', opacity: 0.25, ease: 'power2.in' },
+          { y: 0, autoAlpha: 1 },
+          { y: '18vh', autoAlpha: 0.25, ease: 'power2.in' },
           0.7
         );
       });

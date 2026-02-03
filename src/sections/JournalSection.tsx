@@ -22,10 +22,10 @@ export default function JournalSection({ className = '' }: JournalSectionProps) 
       // Header reveal
       gsap.fromTo(
         headerRef.current,
-        { y: 40, opacity: 0 },
+        { y: 40, autoAlpha: 0 },
         {
           y: 0,
-          opacity: 1,
+          autoAlpha: 1,
           duration: 0.8,
           ease: 'power2.out',
           scrollTrigger: {
@@ -42,10 +42,10 @@ export default function JournalSection({ className = '' }: JournalSectionProps) 
 
         gsap.fromTo(
           article,
-          { y: 40, opacity: 0 },
+          { y: 40, autoAlpha: 0 },
           {
             y: 0,
-            opacity: 1,
+            autoAlpha: 1,
             duration: 0.6,
             delay: index * 0.1,
             ease: 'power2.out',

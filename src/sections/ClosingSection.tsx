@@ -44,30 +44,30 @@ export default function ClosingSection({ className = '' }: ClosingSectionProps) 
       // Headline
       scrollTl.fromTo(
         headlineRef.current,
-        { y: 70, rotateX: 35, opacity: 0 },
-        { y: 0, rotateX: 0, opacity: 1, ease: 'none' },
+        { y: 70, rotateX: 35, autoAlpha: 0 },
+        { y: 0, rotateX: 0, autoAlpha: 1, ease: 'none' },
         0
       );
 
       scrollTl.fromTo(
         headlineRef.current,
-        { y: 0, opacity: 1 },
-        { y: -30, opacity: 0.2, ease: 'power2.in' },
+        { y: 0, autoAlpha: 1 },
+        { y: -30, autoAlpha: 0.2, ease: 'power2.in' },
         0.7
       );
 
       // CTA
       scrollTl.fromTo(
         ctaRef.current,
-        { y: 20, opacity: 0 },
-        { y: 0, opacity: 1, ease: 'none' },
+        { y: 20, autoAlpha: 0 },
+        { y: 0, autoAlpha: 1, ease: 'none' },
         0.1
       );
 
       scrollTl.fromTo(
         ctaRef.current,
-        { opacity: 1 },
-        { opacity: 0.2, ease: 'power2.in' },
+        { autoAlpha: 1 },
+        { autoAlpha: 0.2, ease: 'power2.in' },
         0.75
       );
     }, sectionRef);

@@ -52,30 +52,30 @@ export default function PartnersSection({ className = '' }: PartnersSectionProps
       // Left block
       scrollTl.fromTo(
         leftRef.current,
-        { x: '-50vw', opacity: 0 },
-        { x: 0, opacity: 1, ease: 'none' },
+        { x: '-50vw', autoAlpha: 0 },
+        { x: 0, autoAlpha: 1, ease: 'none' },
         0
       );
 
       scrollTl.fromTo(
         leftRef.current,
-        { x: 0, opacity: 1 },
-        { x: '-10vw', opacity: 0.25, ease: 'power2.in' },
+        { x: 0, autoAlpha: 1 },
+        { x: '-10vw', autoAlpha: 0.25, ease: 'power2.in' },
         0.7
       );
 
       // Right card
       scrollTl.fromTo(
         rightRef.current,
-        { x: '50vw', rotateY: -16, opacity: 0 },
-        { x: 0, rotateY: 0, opacity: 1, ease: 'none' },
+        { x: '50vw', rotateY: -16, autoAlpha: 0 },
+        { x: 0, rotateY: 0, autoAlpha: 1, ease: 'none' },
         0.08
       );
 
       scrollTl.fromTo(
         rightRef.current,
-        { x: 0, opacity: 1 },
-        { x: '10vw', opacity: 0.25, ease: 'power2.in' },
+        { x: 0, autoAlpha: 1 },
+        { x: '10vw', autoAlpha: 0.25, ease: 'power2.in' },
         0.7
       );
     }, sectionRef);

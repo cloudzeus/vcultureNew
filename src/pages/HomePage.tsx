@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
-import { gsap, ScrollTrigger } from 'gsap/all';
+import { useLocation } from 'react-router-dom';
+import { gsap, ScrollTrigger, ScrollToPlugin } from 'gsap/all';
 import Navigation from '../components/Navigation';
 import HeroSection from '../sections/HeroSection';
 import StudioSection from '../sections/StudioSection';
@@ -15,10 +16,11 @@ import ClosingSection from '../sections/ClosingSection';
 import JournalSection from '../sections/JournalSection';
 import Footer from '../sections/Footer';
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
 export default function HomePage() {
     const mainRef = useRef<HTMLDivElement>(null);
+    const location = useLocation();
 
     useEffect(() => {
         // We rely on native scroll + ScrollTrigger for animations now.
@@ -27,10 +29,25 @@ export default function HomePage() {
         // Refresh ScrollTrigger when comp mounts/updates to ensure positions are correct
         ScrollTrigger.refresh();
 
+        // Handle hash navigation
+        if (location.hash) {
+            // Force reset to top so animation starts from 0
+            window.scrollTo(0, 0);
+
+            // Smooth scroll to target
+            setTimeout(() => {
+                gsap.to(window, {
+                    duration: 2.5,
+                    scrollTo: { y: location.hash, autoKill: false },
+                    ease: 'power2.inOut'
+                });
+            }, 100);
+        }
+
         return () => {
             ScrollTrigger.getAll().forEach(t => t.kill());
         };
-    }, []);
+    }, [location]);
 
     return (
         <div ref={mainRef} className="relative bg-background">

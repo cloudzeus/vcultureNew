@@ -53,15 +53,15 @@ export default function ServicesSection({ className = '' }: ServicesSectionProps
       // Header
       scrollTl.fromTo(
         headerRef.current,
-        { y: -30, opacity: 0 },
-        { y: 0, opacity: 1, ease: 'none' },
+        { y: -30, autoAlpha: 0 },
+        { y: 0, autoAlpha: 1, ease: 'none' },
         0
       );
 
       scrollTl.fromTo(
         headerRef.current,
-        { opacity: 1 },
-        { opacity: 0, ease: 'power2.in' },
+        { autoAlpha: 1 },
+        { autoAlpha: 0, ease: 'power2.in' },
         0.8
       );
 
@@ -71,15 +71,15 @@ export default function ServicesSection({ className = '' }: ServicesSectionProps
 
         scrollTl.fromTo(
           card,
-          { y: `${80 + index * 20}vh`, rotateX: 45, opacity: 0 },
-          { y: 0, rotateX: 0, opacity: 1, ease: 'none' },
+          { y: `${80 + index * 20}vh`, rotateX: 45, autoAlpha: 0 },
+          { y: 0, rotateX: 0, autoAlpha: 1, ease: 'none' },
           index * 0.06
         );
 
         scrollTl.fromTo(
           card,
-          { y: 0, opacity: 1 },
-          { y: '-40vh', opacity: 0.25, ease: 'power2.in' },
+          { y: 0, autoAlpha: 1 },
+          { y: '-40vh', autoAlpha: 0.25, ease: 'power2.in' },
           0.7
         );
       });

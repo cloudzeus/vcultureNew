@@ -30,45 +30,45 @@ export default function StudioSection({ className = '' }: StudioSectionProps) {
       // Background animation
       scrollTl.fromTo(
         bgRef.current,
-        { scale: 1.08, y: '6vh', opacity: 0.6 },
-        { scale: 1, y: 0, opacity: 1, ease: 'none' },
+        { scale: 1.08, y: '6vh', autoAlpha: 0.6 },
+        { scale: 1, y: 0, autoAlpha: 1, ease: 'none' },
         0
       );
 
       scrollTl.fromTo(
         bgRef.current,
-        { y: 0, opacity: 1 },
-        { y: '-8vh', opacity: 0.35, ease: 'power2.in' },
+        { y: 0, autoAlpha: 1 },
+        { y: '-8vh', autoAlpha: 0.35, ease: 'power2.in' },
         0.7
       );
 
       // Left text block
       scrollTl.fromTo(
         textBlockRef.current,
-        { x: '-40vw', opacity: 0 },
-        { x: 0, opacity: 1, ease: 'none' },
+        { x: '-40vw', autoAlpha: 0 },
+        { x: 0, autoAlpha: 1, ease: 'none' },
         0
       );
 
       scrollTl.fromTo(
         textBlockRef.current,
-        { x: 0, opacity: 1 },
-        { x: '-10vw', opacity: 0.2, ease: 'power2.in' },
+        { x: 0, autoAlpha: 1 },
+        { x: '-10vw', autoAlpha: 0.2, ease: 'power2.in' },
         0.7
       );
 
       // Right card
       scrollTl.fromTo(
         cardRef.current,
-        { x: '45vw', rotateY: 18, opacity: 0 },
-        { x: 0, rotateY: 0, opacity: 1, ease: 'none' },
+        { x: '45vw', rotateY: 18, autoAlpha: 0 },
+        { x: 0, rotateY: 0, autoAlpha: 1, ease: 'none' },
         0.05
       );
 
       scrollTl.fromTo(
         cardRef.current,
-        { y: 0, rotateY: 0, opacity: 1 },
-        { y: '10vh', rotateY: -10, opacity: 0.25, ease: 'power2.in' },
+        { y: 0, rotateY: 0, autoAlpha: 1 },
+        { y: '10vh', rotateY: -10, autoAlpha: 0.25, ease: 'power2.in' },
         0.7
       );
     }, sectionRef);

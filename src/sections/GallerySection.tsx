@@ -59,60 +59,60 @@ export default function GallerySection({ className = '' }: GallerySectionProps) 
       // Left hero card
       scrollTl.fromTo(
         leftCardRef.current,
-        { x: '-60vw', rotateY: 22, opacity: 0 },
-        { x: 0, rotateY: 0, opacity: 1, ease: 'none' },
+        { x: '-60vw', rotateY: 22, autoAlpha: 0 },
+        { x: 0, rotateY: 0, autoAlpha: 1, ease: 'none' },
         0
       );
 
       scrollTl.fromTo(
         leftCardRef.current,
-        { y: 0, rotateY: 0, opacity: 1 },
-        { y: '14vh', rotateY: -12, opacity: 0.3, ease: 'power2.in' },
+        { y: 0, rotateY: 0, autoAlpha: 1 },
+        { y: '14vh', rotateY: -12, autoAlpha: 0.3, ease: 'power2.in' },
         0.7
       );
 
       // Right top card
       scrollTl.fromTo(
         rightTopRef.current,
-        { x: '40vw', y: '-30vh', rotateZ: 6, opacity: 0 },
-        { x: 0, y: 0, rotateZ: 0, opacity: 1, ease: 'none' },
+        { x: '40vw', y: '-30vh', rotateZ: 6, autoAlpha: 0 },
+        { x: 0, y: 0, rotateZ: 0, autoAlpha: 1, ease: 'none' },
         0.08
       );
 
       scrollTl.fromTo(
         rightTopRef.current,
-        { x: 0, opacity: 1 },
-        { x: '18vw', opacity: 0.25, ease: 'power2.in' },
+        { x: 0, autoAlpha: 1 },
+        { x: '18vw', autoAlpha: 0.25, ease: 'power2.in' },
         0.7
       );
 
       // Right bottom card
       scrollTl.fromTo(
         rightBottomRef.current,
-        { x: '45vw', y: '30vh', rotateZ: -6, opacity: 0 },
-        { x: 0, y: 0, rotateZ: 0, opacity: 1, ease: 'none' },
+        { x: '45vw', y: '30vh', rotateZ: -6, autoAlpha: 0 },
+        { x: 0, y: 0, rotateZ: 0, autoAlpha: 1, ease: 'none' },
         0.12
       );
 
       scrollTl.fromTo(
         rightBottomRef.current,
-        { x: 0, opacity: 1 },
-        { x: '18vw', opacity: 0.25, ease: 'power2.in' },
+        { x: 0, autoAlpha: 1 },
+        { x: '18vw', autoAlpha: 0.25, ease: 'power2.in' },
         0.7
       );
 
       // View all link
       scrollTl.fromTo(
         linkRef.current,
-        { opacity: 0 },
-        { opacity: 1, ease: 'none' },
+        { autoAlpha: 0 },
+        { autoAlpha: 1, ease: 'none' },
         0.2
       );
 
       scrollTl.fromTo(
         linkRef.current,
-        { opacity: 1 },
-        { opacity: 0, ease: 'power2.in' },
+        { autoAlpha: 1 },
+        { autoAlpha: 0, ease: 'power2.in' },
         0.8
       );
     }, sectionRef);

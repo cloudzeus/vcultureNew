@@ -44,30 +44,30 @@ export default function ProcessSection({ className = '' }: ProcessSectionProps) 
       // Headline
       scrollTl.fromTo(
         headlineRef.current,
-        { y: 60, rotateX: 35, opacity: 0 },
-        { y: 0, rotateX: 0, opacity: 1, ease: 'none' },
+        { y: 60, rotateX: 35, autoAlpha: 0 },
+        { y: 0, rotateX: 0, autoAlpha: 1, ease: 'none' },
         0
       );
 
       scrollTl.fromTo(
         headlineRef.current,
-        { y: 0, opacity: 1 },
-        { y: -40, opacity: 0.2, ease: 'power2.in' },
+        { y: 0, autoAlpha: 1 },
+        { y: -40, autoAlpha: 0.2, ease: 'power2.in' },
         0.7
       );
 
       // Body
       scrollTl.fromTo(
         bodyRef.current,
-        { y: 40, opacity: 0 },
-        { y: 0, opacity: 1, ease: 'none' },
+        { y: 40, autoAlpha: 0 },
+        { y: 0, autoAlpha: 1, ease: 'none' },
         0.08
       );
 
       scrollTl.fromTo(
         bodyRef.current,
-        { y: 0, opacity: 1 },
-        { y: -20, opacity: 0.2, ease: 'power2.in' },
+        { y: 0, autoAlpha: 1 },
+        { y: -20, autoAlpha: 0.2, ease: 'power2.in' },
         0.72
       );
     }, sectionRef);

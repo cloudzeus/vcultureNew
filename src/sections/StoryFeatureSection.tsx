@@ -45,30 +45,30 @@ export default function StoryFeatureSection({ className = '' }: StoryFeatureSect
       // Label
       scrollTl.fromTo(
         labelRef.current,
-        { x: '20vw', opacity: 0 },
-        { x: 0, opacity: 1, ease: 'none' },
+        { x: '20vw', autoAlpha: 0 },
+        { x: 0, autoAlpha: 1, ease: 'none' },
         0.08
       );
 
       scrollTl.fromTo(
         labelRef.current,
-        { opacity: 1 },
-        { opacity: 0.2, ease: 'power2.in' },
+        { autoAlpha: 1 },
+        { autoAlpha: 0.2, ease: 'power2.in' },
         0.75
       );
 
       // Content
       scrollTl.fromTo(
         contentRef.current,
-        { y: '40vh', opacity: 0 },
-        { y: 0, opacity: 1, ease: 'none' },
+        { y: '40vh', autoAlpha: 0 },
+        { y: 0, autoAlpha: 1, ease: 'none' },
         0
       );
 
       scrollTl.fromTo(
         contentRef.current,
-        { y: 0, opacity: 1 },
-        { y: '18vh', opacity: 0.25, ease: 'power2.in' },
+        { y: 0, autoAlpha: 1 },
+        { y: '18vh', autoAlpha: 0.25, ease: 'power2.in' },
         0.7
       );
     }, sectionRef);
