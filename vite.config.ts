@@ -12,4 +12,9 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  preview: {
+    allowedHosts: ['vculture.gr', 'localhost'],
+    host: true,
+    port: 3000,
+  },
 });
