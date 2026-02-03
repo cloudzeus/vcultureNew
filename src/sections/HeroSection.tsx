@@ -25,39 +25,39 @@ export default function HeroSection({ className = '' }: HeroSectionProps) {
       // Background fade in
       tl.fromTo(
         bgRef.current,
-        { opacity: 0, scale: 1.1 },
-        { opacity: 1, scale: 1, duration: 1.2 }
+        { autoAlpha: 0, scale: 1.1 },
+        { autoAlpha: 1, scale: 1, duration: 1.2 }
       );
 
       // Headline animation
       tl.fromTo(
         headlineRef.current,
-        { y: 60, rotateX: 35, opacity: 0 },
-        { y: 0, rotateX: 0, opacity: 1, duration: 1 },
+        { y: 60, rotateX: 35, autoAlpha: 0 },
+        { y: 0, rotateX: 0, autoAlpha: 1, duration: 1 },
         0.2
       );
 
       // Subheadline animation
       tl.fromTo(
         subheadlineRef.current,
-        { y: 40, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.8 },
+        { y: 40, autoAlpha: 0 },
+        { y: 0, autoAlpha: 1, duration: 0.8 },
         0.4
       );
 
       // CTA animation
       tl.fromTo(
         ctaRef.current,
-        { y: 30, scale: 0.95, opacity: 0 },
-        { y: 0, scale: 1, opacity: 1, duration: 0.6, ease: 'back.out(1.6)' },
+        { y: 30, scale: 0.95, autoAlpha: 0 },
+        { y: 0, scale: 1, autoAlpha: 1, duration: 0.6, ease: 'back.out(1.6)' },
         0.6
       );
 
       // Scroll hint animation
       tl.fromTo(
         scrollHintRef.current,
-        { opacity: 0 },
-        { opacity: 1, duration: 0.5 },
+        { autoAlpha: 0 },
+        { autoAlpha: 1, duration: 0.5 },
         1
       );
 
@@ -100,31 +100,32 @@ export default function HeroSection({ className = '' }: HeroSectionProps) {
       // SETTLE (30-70%): Static
 
       // EXIT (70-100%)
+      // EXIT (70-100%)
       scrollTl.fromTo(
         headlineRef.current,
-        { x: 0, opacity: 1 },
-        { x: '-18vw', opacity: 0, ease: 'power2.in' },
+        { x: 0, autoAlpha: 1 },
+        { x: '-18vw', autoAlpha: 0, ease: 'power2.in' },
         0.7
       );
 
       scrollTl.fromTo(
         subheadlineRef.current,
-        { x: 0, opacity: 1 },
-        { x: '-14vw', opacity: 0, ease: 'power2.in' },
+        { x: 0, autoAlpha: 1 },
+        { x: '-14vw', autoAlpha: 0, ease: 'power2.in' },
         0.72
       );
 
       scrollTl.fromTo(
         ctaRef.current,
-        { x: 0, opacity: 1 },
-        { x: '-10vw', opacity: 0, ease: 'power2.in' },
+        { x: 0, autoAlpha: 1 },
+        { x: '-10vw', autoAlpha: 0, ease: 'power2.in' },
         0.74
       );
 
       scrollTl.fromTo(
         scrollHintRef.current,
-        { opacity: 1 },
-        { opacity: 0, ease: 'power2.in' },
+        { autoAlpha: 1 },
+        { autoAlpha: 0, ease: 'power2.in' },
         0.7
       );
 
@@ -156,7 +157,7 @@ export default function HeroSection({ className = '' }: HeroSectionProps) {
       <div
         ref={bgRef}
         className="absolute inset-0 w-full h-full"
-        style={{ opacity: 0 }}
+        style={{ opacity: 0, visibility: 'hidden' }}
       >
         <img
           src="/images/1.jpg"
@@ -176,7 +177,7 @@ export default function HeroSection({ className = '' }: HeroSectionProps) {
           <h1
             ref={headlineRef}
             className="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-[0.95] tracking-tight mb-8"
-            style={{ opacity: 0 }}
+            style={{ opacity: 0, visibility: 'hidden' }}
           >
             vculture
             <br />
@@ -191,14 +192,14 @@ export default function HeroSection({ className = '' }: HeroSectionProps) {
           <p
             ref={subheadlineRef}
             className="text-lg md:text-xl text-zinc-200 max-w-xl leading-relaxed mb-10"
-            style={{ opacity: 0 }}
+            style={{ opacity: 0, visibility: 'hidden' }}
           >
             Οπτικοακουστικές αφηγήσεις για ανθρώπινα δικαιώματα, αξιοπρέπεια
             και τις φωνές που συνήθως δεν ακούγονται.
           </p>
 
           {/* CTA Buttons */}
-          <div ref={ctaRef} className="flex flex-wrap gap-4" style={{ opacity: 0 }}>
+          <div ref={ctaRef} className="flex flex-wrap gap-4" style={{ opacity: 0, visibility: 'hidden' }}>
             <button onClick={scrollToWork} className="btn-primary">
               Δες τη δουλειά μας
             </button>
@@ -229,7 +230,7 @@ export default function HeroSection({ className = '' }: HeroSectionProps) {
       <div
         ref={scrollHintRef}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/50"
-        style={{ opacity: 0 }}
+        style={{ opacity: 0, visibility: 'hidden' }}
       >
         <span className="text-xs tracking-widest uppercase">Scroll</span>
         <ChevronDown size={20} />
