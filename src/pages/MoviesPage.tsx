@@ -29,9 +29,9 @@ export default function MoviesPage() {
 
                 gsap.fromTo(
                     [content, image, playBtn],
-                    { opacity: 0, y: 50 },
+                    { autoAlpha: 0, y: 50 },
                     {
-                        opacity: 1,
+                        autoAlpha: 1,
                         y: 0,
                         duration: 1,
                         ease: 'power2.out',
@@ -46,7 +46,16 @@ export default function MoviesPage() {
             });
         });
 
-        return () => ctx.revert();
+        // Ensure ScrollTrigger refreshes after a short delay to account for image layout
+        // and ensure visibility logic is correct
+        const timer = setTimeout(() => {
+            ScrollTrigger.refresh();
+        }, 500);
+
+        return () => {
+            clearTimeout(timer);
+            ctx.revert();
+        };
     }, []);
 
     const handlePlayVideo = (videoUrl: string, title: string) => {
@@ -65,7 +74,7 @@ export default function MoviesPage() {
                     <section
                         key={movie.id}
                         ref={(el: HTMLDivElement | null) => { sectionsRef.current[index] = el; }}
-                        className="relative min-h-screen flex items-center justify-center overflow-hidden"
+                        className="relative min-h-[100dvh] flex items-center justify-center overflow-hidden"
                     >
                         {/* Background Image */}
                         <div className="absolute inset-0 movie-image">
@@ -137,7 +146,7 @@ export default function MoviesPage() {
                 ))}
 
                 {/* Final CTA Section */}
-                <section className="relative min-h-screen flex items-center justify-center bg-secondary">
+                <section className="relative min-h-[100dvh] flex items-center justify-center bg-secondary">
                     <div className="px-8 md:px-[8vw] text-center">
                         <h2 className="text-4xl md:text-6xl font-bold text-white mb-6">
                             Έχεις μια ιστορία να πεις;

@@ -64,10 +64,10 @@ export default function Footer({ className = '' }: FooterProps) {
 
             {/* Email */}
             <a
-              href="mailto:hello@vculture.studio"
+              href="mailto:hello@vculture.gr"
               className="text-primary hover:underline"
             >
-              hello@vculture.studio
+              hello@vculture.gr
             </a>
           </div>
 

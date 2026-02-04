@@ -172,7 +172,7 @@ export default function Navigation() {
               e.preventDefault();
               handleNavClick('#contact');
             }}
-            className="btn-primary mt-4"
+            className="btn-primary mt-4 text-sm py-2 px-6 h-auto"
             style={{
               transitionDelay: isMobileMenuOpen ? '250ms' : '0ms',
               opacity: isMobileMenuOpen ? 1 : 0,

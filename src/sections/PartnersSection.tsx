@@ -137,10 +137,10 @@ export default function PartnersSection({ className = '' }: PartnersSectionProps
               <div className="flex items-center gap-3 mb-6">
                 <Mail className="w-5 h-5 text-primary" />
                 <a
-                  href="mailto:hello@vculture.studio"
+                  href="mailto:hello@vculture.gr"
                   className="text-white hover:text-primary transition-colors"
                 >
-                  hello@vculture.studio
+                  hello@vculture.gr
                 </a>
               </div>
 

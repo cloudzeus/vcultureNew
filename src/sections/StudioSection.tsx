@@ -112,7 +112,7 @@ export default function StudioSection({ className = '' }: StudioSectionProps) {
             </h2>
 
             {/* Body */}
-            <p className="text-lg text-zinc-300 leading-relaxed">
+            <p className="text-lg text-zinc-200 leading-relaxed">
               Συνεργαζόμαστε με ΜΚΟ, ιδρύματα και συνειδητές εταιρείες για να
               μετατρέπουμε πολύπλοκες πραγματικότητες σε σαφείς, ανθρώπινες
               ιστορίες—χωρίς να χάνουμε τη νuance.

@@ -191,7 +191,7 @@ export default function HeroSection({ className = '' }: HeroSectionProps) {
           {/* Subheadline */}
           <p
             ref={subheadlineRef}
-            className="text-lg md:text-xl text-zinc-200 max-w-xl leading-relaxed mb-10"
+            className="text-lg md:text-xl text-zinc-100 max-w-xl leading-relaxed mb-10"
             style={{ opacity: 0, visibility: 'hidden' }}
           >
             Οπτικοακουστικές αφηγήσεις για ανθρώπινα δικαιώματα, αξιοπρέπεια
