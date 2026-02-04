@@ -108,10 +108,10 @@ export default function Footer({ className = '' }: FooterProps) {
 
         {/* Bottom Bar */}
         <div className="mt-16 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-zinc-500">
+          <p className="text-sm text-zinc-300">
             © 2026 vculture. Με επιφύλαξη παντός δικαιώματος.
           </p>
-          <p className="text-sm text-zinc-500">
+          <p className="text-sm text-zinc-300">
             Φτιαγμένο με φροντίδα για ιστορίες που μετράνε.
           </p>
         </div>
