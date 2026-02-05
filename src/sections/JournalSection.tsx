@@ -1,21 +1,27 @@
-import { useRef, useLayoutEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useRef, useLayoutEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Clock, ArrowRight } from 'lucide-react';
-import { journalPosts } from '../data/journal';
+import { ArrowRight } from 'lucide-react';
+import { journalPosts as staticPosts } from '../data/journal';
+import { JournalPostWithTags } from '@/types/database';
+import { useLanguage } from '@/context/LanguageContext';
 
 gsap.registerPlugin(ScrollTrigger);
 
 interface JournalSectionProps {
   className?: string;
+  posts?: JournalPostWithTags[];
 }
 
-export default function JournalSection({ className = '' }: JournalSectionProps) {
-  const navigate = useNavigate();
+export default function JournalSection({ className = '', posts: dynamicPosts }: JournalSectionProps) {
+  const router = useRouter();
+  const { t } = useLanguage();
   const sectionRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
   const articlesRef = useRef<(HTMLDivElement | null)[]>([]);
+  const imageRef = useRef<HTMLDivElement>(null);
+  const [hoveredImage, setHoveredImage] = useState<string | null>(null);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -31,18 +37,16 @@ export default function JournalSection({ className = '' }: JournalSectionProps) 
           scrollTrigger: {
             trigger: headerRef.current,
             start: 'top 80%',
-            toggleActions: 'play none none reverse',
           },
         }
       );
 
-      // Articles reveal
+      // Articles initial reveal
       articlesRef.current.forEach((article, index) => {
         if (!article) return;
-
         gsap.fromTo(
           article,
-          { y: 40, autoAlpha: 0 },
+          { y: 20, autoAlpha: 0 },
           {
             y: 0,
             autoAlpha: 1,
@@ -51,8 +55,7 @@ export default function JournalSection({ className = '' }: JournalSectionProps) 
             ease: 'power2.out',
             scrollTrigger: {
               trigger: article,
-              start: 'top 85%',
-              toggleActions: 'play none none reverse',
+              start: 'top 90%',
             },
           }
         );
@@ -62,79 +65,120 @@ export default function JournalSection({ className = '' }: JournalSectionProps) 
     return () => ctx.revert();
   }, []);
 
+  // Floating image follow logic with smoothing and skew
+  const onMouseMove = (e: React.MouseEvent) => {
+    if (!imageRef.current || !hoveredImage) return;
+
+    const bounds = sectionRef.current?.getBoundingClientRect();
+    if (!bounds) return;
+
+    // Relative to the section
+    const x = e.clientX - bounds.left;
+    const y = e.clientY - bounds.top;
+
+    // Movement speed for skew
+    const xMove = e.movementX || 0;
+    const skew = gsap.utils.clamp(-15, 15, xMove * 0.8);
+
+    gsap.to(imageRef.current, {
+      x: e.clientX,
+      y: e.clientY,
+      rotation: skew * 0.2,
+      skewX: skew * 0.1,
+      duration: 1,
+      ease: 'power4.out',
+      overwrite: 'auto'
+    });
+  };
+
+  const displayArticles = (dynamicPosts && dynamicPosts.length > 0
+    ? dynamicPosts.map(p => ({
+      id: p.slug || p.id,
+      title: t(p.title, p.titleEn),
+      category: p.tags[0]?.tag.name || 'Field Notes',
+      image: p.featuredImageUrl || '/images/bts-1.jpg'
+    }))
+    : staticPosts.map(p => ({
+      id: p.id,
+      title: t(p.title, p.titleEn),
+      category: t(p.category, p.categoryEn),
+      image: p.image
+    }))
+  ).slice(0, 5);
+
   return (
     <section
       ref={sectionRef}
       id="journal"
-      className={`relative bg-background py-24 md:py-32 ${className}`}
+      className={`relative bg-background py-32 md:py-48 min-h-screen flex flex-col justify-center overflow-hidden cursor-none ${className}`}
+      onMouseMove={onMouseMove}
     >
-      <div className="px-8 md:px-[8vw]">
-        {/* Header */}
-        <div ref={headerRef} className="mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            Journal of voices
+      {/* Floating Image Container (Fixed for stable follow) */}
+      <div
+        ref={imageRef}
+        className="fixed pointer-events-none z-[100] w-[200px] h-[280px] md:w-[380px] md:h-[260px] -translate-x-1/2 -translate-y-1/2 opacity-0 transition-opacity duration-700 overflow-hidden rounded-lg shadow-2xl"
+        style={{
+          opacity: hoveredImage ? 0.4 : 0,
+          mixBlendMode: 'screen',
+          top: 0,
+          left: 0
+        }}
+      >
+        {hoveredImage && (
+          <img
+            src={hoveredImage}
+            alt="Preview"
+            className="w-full h-full object-cover grayscale brightness-125"
+          />
+        )}
+      </div>
+
+      <div className="max-w-7xl mx-auto px-8 md:px-[8vw] relative z-10 w-full">
+        {/* Header - Centered */}
+        <div className="text-center mb-12 md:mb-20">
+          <span className="micro-label block mb-4">{t('Σκέψεις & Ιστορίες', 'Thoughts & Stories')}</span>
+          <h2 className="text-3xl md:text-6xl font-bold text-white tracking-tighter">
+            {t('Journal', 'Journal')}
           </h2>
-          <p className="text-lg text-zinc-300">
-            Άρθρα, σημειώσεις από τα γυρίσματα και φωτογραφικά δοκίμια που φωτίζουν όσα δεν φαίνονται στην οθόνη.
-          </p>
         </div>
 
-        {/* Articles List */}
-        <div className="space-y-6">
-          {journalPosts.slice(0, 4).map((article, index) => (
+        {/* Articles List - Centered Text Only */}
+        <div className="flex flex-col items-center">
+          {displayArticles.map((article) => (
             <div
               key={article.id}
-              ref={(el: HTMLDivElement | null) => { articlesRef.current[index] = el; }}
-              onClick={() => navigate(`/journal/${article.id}`)}
-              className="group cursor-pointer"
+              onMouseEnter={() => setHoveredImage(article.image)}
+              onMouseLeave={() => setHoveredImage(null)}
+              onClick={() => router.push(`/journal/${article.id}`)}
+              className="group relative py-6 md:py-10 border-b border-white/5 w-full text-center cursor-pointer transition-all duration-500"
             >
-              <div className="flex flex-col md:flex-row gap-6 p-6 rounded-[1.125rem] border border-white/5 hover:border-white/10 hover:bg-white/[0.02] transition-all duration-300">
-                {/* Thumbnail */}
-                <div className="md:w-48 h-32 rounded-lg overflow-hidden flex-shrink-0">
-                  <img
-                    src={article.image}
-                    alt={article.title}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                </div>
+              <div className="inline-block relative">
+                <span className="block text-[10px] md:text-xs font-medium tracking-[0.3em] uppercase text-primary mb-2 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-2 group-hover:translate-y-0">
+                  {article.category}
+                </span>
 
-                {/* Content */}
-                <div className="flex-1 flex flex-col justify-center">
-                  <div className="flex items-center gap-4 mb-3">
-                    <span className="text-xs font-medium tracking-wider uppercase text-primary">
-                      {article.category}
-                    </span>
-                    <span className="flex items-center gap-1 text-xs text-zinc-400">
-                      <Clock className="w-3 h-3" />
-                      {article.readTime}
-                    </span>
-                  </div>
+                <h3 className="text-lg md:text-3xl lg:text-5xl xl:text-6xl font-bold text-white/20 group-hover:text-white transition-all duration-700 leading-[1.1] text-balance max-w-[90vw] mx-auto">
+                  {article.title}
+                </h3>
 
-                  <h3 className="text-xl font-semibold text-white group-hover:text-primary transition-colors mb-2">
-                    {article.title}
-                  </h3>
-
-                  <div className="flex items-center gap-2 text-sm text-zinc-400 group-hover:text-primary transition-colors">
-                    <span>Διάβασε το άρθρο</span>
-                    <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                  </div>
-                </div>
+                {/* Underline mask effect */}
+                <div className="absolute -bottom-2 left-0 w-0 h-[2px] bg-primary transition-all duration-700 group-hover:w-full" />
               </div>
             </div>
           ))}
         </div>
 
-        {/* CTA */}
-        <div className="mt-12 text-center">
+        {/* View All Link */}
+        <div className="mt-20 md:mt-32 text-center">
           <button
-            onClick={() => navigate('/journal')}
-            className="btn-secondary mb-6"
+            onClick={() => router.push('/journal')}
+            className="group inline-flex flex-col items-center gap-2"
           >
-            Δες όλα τα άρθρα
+            <span className="text-sm font-medium text-zinc-400 group-hover:text-white transition-colors duration-300 tracking-widest uppercase">
+              {t('Δείτε όλο το journal', 'Explore all stories')}
+            </span>
+            <div className="w-12 h-px bg-primary/40 group-hover:w-24 group-hover:bg-primary transition-all duration-500" />
           </button>
-          <p className="text-zinc-400">
-            «Αν ένα κείμενο εδώ σε άγγιξε, μοιράσου το. Κάπως έτσι αρχίζει η αλλαγή.»
-          </p>
         </div>
       </div>
     </section>

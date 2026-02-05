@@ -1,15 +1,20 @@
 import { useRef, useLayoutEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useLanguage } from '@/context/LanguageContext';
+import { ProcessData } from '@/types/database';
 
 gsap.registerPlugin(ScrollTrigger);
 
 interface ProcessSectionProps {
   className?: string;
+  data: ProcessData | null;
 }
 
-export default function ProcessSection({ className = '' }: ProcessSectionProps) {
-  const sectionRef = useRef<HTMLDivElement>(null);
+export default function ProcessSection({ className = '', data }: ProcessSectionProps) {
+  const { t } = useLanguage();
+  const containerRef = useRef<HTMLDivElement>(null);
+  const pinRef = useRef<HTMLDivElement>(null);
   const bgRef = useRef<HTMLDivElement>(null);
   const headlineRef = useRef<HTMLHeadingElement>(null);
   const bodyRef = useRef<HTMLParagraphElement>(null);
@@ -18,10 +23,11 @@ export default function ProcessSection({ className = '' }: ProcessSectionProps) 
     const ctx = gsap.context(() => {
       const scrollTl = gsap.timeline({
         scrollTrigger: {
-          trigger: sectionRef.current,
+          trigger: pinRef.current,
           start: 'top top',
           end: '+=120%',
           pin: true,
+          pinSpacing: true,
           scrub: 0.6,
         },
       });
@@ -70,48 +76,52 @@ export default function ProcessSection({ className = '' }: ProcessSectionProps) 
         { y: -20, autoAlpha: 0.2, ease: 'power2.in' },
         0.72
       );
-    }, sectionRef);
+    }, containerRef);
 
     return () => ctx.revert();
   }, []);
 
+  const bgImage = data?.backgroundImageUrl || '/images/5.jpg';
+  const headline = t(
+    data?.headline || '«Η κάμερα δεν είναι<br />ουδέτερη.<br />Διαλέγει πλευρά.»',
+    data?.headlineEn
+  );
+  const description = t(data?.description || 'Εμείς διαλέγουμε τους ανθρώπους.', data?.descriptionEn);
+
   return (
     <section
-      ref={sectionRef}
-      className={`section-pinned ${className}`}
+      ref={containerRef}
+      className={`${className} relative overflow-hidden`}
     >
-      {/* Background Image */}
-      <div ref={bgRef} className="absolute inset-0 w-full h-full">
-        <img
-          src="/images/5.jpg"
-          alt="Textured background"
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-background/70" />
-      </div>
+      <div ref={pinRef} className="h-screen w-full relative">
+        {/* Background Image */}
+        <div ref={bgRef} className="absolute inset-0 w-full h-full">
+          <img
+            src={bgImage}
+            alt="Process background"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-background/70" />
+        </div>
 
-      {/* Content */}
-      <div className="relative z-10 h-full flex items-center justify-center px-8 md:px-[8vw]">
-        <div className="max-w-4xl text-center perspective-1000">
-          {/* Headline */}
-          <h2
-            ref={headlineRef}
-            className="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-8"
-          >
-            «Η κάμερα δεν είναι
-            <br />
-            ουδέτερη.
-            <br />
-            Διαλέγει πλευρά.»
-          </h2>
+        {/* Content */}
+        <div className="relative z-10 h-full flex items-center justify-center px-8 md:px-[8vw]">
+          <div className="max-w-4xl text-center perspective-1000">
+            {/* Headline */}
+            <h2
+              ref={headlineRef}
+              className="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-8"
+              dangerouslySetInnerHTML={{ __html: headline }}
+            />
 
-          {/* Body */}
-          <p
-            ref={bodyRef}
-            className="text-lg md:text-xl text-zinc-200 max-w-2xl mx-auto leading-relaxed"
-          >
-            Εμείς διαλέγουμε τους ανθρώπους.
-          </p>
+            {/* Body */}
+            <p
+              ref={bodyRef}
+              className="text-lg md:text-xl text-zinc-200 max-w-2xl mx-auto leading-relaxed"
+            >
+              {description}
+            </p>
+          </div>
         </div>
       </div>
     </section>

@@ -1,6 +1,7 @@
 import { useRef, useLayoutEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useLanguage } from '@/context/LanguageContext';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -9,7 +10,9 @@ interface CTASectionProps {
 }
 
 export default function CTASection({ className = '' }: CTASectionProps) {
-  const sectionRef = useRef<HTMLDivElement>(null);
+  const { t } = useLanguage();
+  const containerRef = useRef<HTMLDivElement>(null);
+  const pinRef = useRef<HTMLDivElement>(null);
   const watermarkRef = useRef<HTMLDivElement>(null);
   const headlineRef = useRef<HTMLHeadingElement>(null);
   const bodyRef = useRef<HTMLParagraphElement>(null);
@@ -19,10 +22,11 @@ export default function CTASection({ className = '' }: CTASectionProps) {
     const ctx = gsap.context(() => {
       const scrollTl = gsap.timeline({
         scrollTrigger: {
-          trigger: sectionRef.current,
+          trigger: pinRef.current,
           start: 'top top',
           end: '+=120%',
           pin: true,
+          pinSpacing: true,
           scrub: 0.6,
         },
       });
@@ -86,55 +90,70 @@ export default function CTASection({ className = '' }: CTASectionProps) {
         { y: 20, autoAlpha: 0.2, ease: 'power2.in' },
         0.74
       );
-    }, sectionRef);
+    }, containerRef);
 
     return () => ctx.revert();
   }, []);
 
   return (
     <section
-      ref={sectionRef}
-      className={`section-pinned ${className}`}
+      ref={containerRef}
+      className={`${className} relative overflow-hidden`}
     >
-      {/* Background */}
-      <div className="absolute inset-0 bg-secondary" />
+      <div ref={pinRef} className="h-screen w-full relative">
+        {/* Background */}
+        <div className="absolute inset-0 bg-secondary" />
 
-      {/* Watermark */}
-      <div
-        ref={watermarkRef}
-        className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden"
-      >
-        <span className="text-[18vw] font-bold text-white whitespace-nowrap">
-          ΣΥΝΕΡΓΑΣΙΑ
-        </span>
-      </div>
+        {/* Watermark */}
+        <div
+          ref={watermarkRef}
+          className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden"
+        >
+          <span className="text-[18vw] font-bold text-white whitespace-nowrap">
+            {t('ΣΥΝΕΡΓΑΣΙΑ', 'COLLABORATION')}
+          </span>
+        </div>
 
-      {/* Content */}
-      <div className="relative z-10 h-full flex items-center justify-center px-8 md:px-[8vw]">
-        <div className="max-w-2xl text-center perspective-1000">
-          {/* Headline */}
-          <h2
-            ref={headlineRef}
-            className="text-4xl md:text-6xl font-bold text-white leading-tight mb-6"
-          >
-            Ας χτίσουμε
-            <br />
-            την επόμενη ιστορία.
-          </h2>
+        {/* Content */}
+        <div className="relative z-10 h-full flex items-center justify-center px-8 md:px-[8vw]">
+          <div className="max-w-2xl text-center perspective-1000">
+            {/* Headline */}
+            <h2
+              ref={headlineRef}
+              className="text-4xl md:text-6xl font-bold text-white leading-tight mb-6"
+            >
+              {t('Ας χτίσουμε', "Let's build")}
+              <br />
+              {t('την επόμενη ιστορία.', 'the next story.')}
+            </h2>
 
-          {/* Body */}
-          <p
-            ref={bodyRef}
-            className="text-lg text-zinc-300 leading-relaxed mb-10"
-          >
-            Πες μας για το όραμά σου. Θα σχεδιάσουμε ένα πλάνο παραγωγής που ταιριάζει στο timeline, τον budget και τις αξίες σου.
-          </p>
+            {/* Body */}
+            <p
+              ref={bodyRef}
+              className="text-lg text-zinc-300 leading-relaxed mb-10"
+            >
+              {t(
+                'Πες μας για το όραμά σου. Θα σχεδιάσουμε ένα πλάνο παραγωγής που ταιριάζει στο timeline, τον budget και τις αξίες σου.',
+                'Tell us about your vision. We will design a production plan that fits your timeline, budget, and values.'
+              )}
+            </p>
 
-          {/* CTA Buttons */}
-          <div ref={ctaRef} className="flex flex-wrap justify-center gap-4">
-            <a href="#contact" className="btn-primary">
-              Ξεκίνα ένα project
-            </a>
+            {/* CTA Buttons */}
+            <div ref={ctaRef} className="flex flex-wrap justify-center gap-4">
+              <a
+                href="#contact"
+                onClick={(e) => {
+                  e.preventDefault();
+                  const element = document.querySelector('#contact');
+                  if (element) {
+                    element.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }}
+                className="btn-primary"
+              >
+                {t('Ξεκίνα ένα project', 'Start a project')}
+              </a>
+            </div>
           </div>
         </div>
       </div>

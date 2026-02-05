@@ -2,17 +2,20 @@ import { useRef, useLayoutEffect, useEffect, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Quote } from 'lucide-react';
+import { ImpactData } from '@/types/database';
+import { useLanguage } from '@/context/LanguageContext';
 
 gsap.registerPlugin(ScrollTrigger);
 
 interface ImpactSectionProps {
   className?: string;
+  data: ImpactData | null;
 }
 
-const metrics = [
-  { value: 50, suffix: '+', label: 'κοινωνικές ιστορίες' },
-  { value: 10, suffix: '', label: 'χώρες' },
-  { value: 20, suffix: '+', label: 'συνεργασίες με οργανισμούς' },
+const defaultMetrics = [
+  { value: 50, suffix: '+', label: 'κοινωνικές ιστορίες', labelEn: 'social stories' },
+  { value: 10, suffix: '', label: 'χώρες', labelEn: 'countries' },
+  { value: 20, suffix: '+', label: 'συνεργασίες με οργανισμούς', labelEn: 'partnerships' },
 ];
 
 function AnimatedCounter({ value, suffix }: { value: number; suffix: string }) {
@@ -62,20 +65,37 @@ function AnimatedCounter({ value, suffix }: { value: number; suffix: string }) {
   );
 }
 
-export default function ImpactSection({ className = '' }: ImpactSectionProps) {
-  const sectionRef = useRef<HTMLDivElement>(null);
+export default function ImpactSection({ className = '', data }: ImpactSectionProps) {
+  const { t } = useLanguage();
+  const containerRef = useRef<HTMLDivElement>(null);
+  const pinRef = useRef<HTMLDivElement>(null);
   const bgRef = useRef<HTMLDivElement>(null);
   const metricsRef = useRef<HTMLDivElement>(null);
   const quoteRef = useRef<HTMLDivElement>(null);
+
+  const displayMetrics = data && data.stats.length > 0
+    ? data.stats.map(s => ({ value: s.value, suffix: s.suffix || '', label: t(s.label, s.labelEn) }))
+    : defaultMetrics.map(s => ({ value: s.value, suffix: s.suffix, label: t(s.label, s.labelEn) }));
+
+  const heading = t(data?.heading || 'Our impact in frames', data?.headingEn);
+  const subText = t(
+    '«Κάθε νούμερο είναι ένας άνθρωπος, μια ανάσα, ένα βλέμμα στην κάμερα.»',
+    '“Every number is a person, a breath, a gaze at the camera.”'
+  );
+  const quoteText = t(
+    '«Δεν κάνουμε video για να "συγκινήσουμε". Κάνουμε video για να γίνει η συγκίνηση αφορμή να αλλάξει κάτι – έστω και σε έναν άνθρωπο.»',
+    '“We don’t create videos just to ‘move’ people. We create videos so that emotion becomes the catalyst for change – even if it’s just for one person.”'
+  );
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       const scrollTl = gsap.timeline({
         scrollTrigger: {
-          trigger: sectionRef.current,
+          trigger: pinRef.current,
           start: 'top top',
           end: '+=130%',
           pin: true,
+          pinSpacing: true,
           scrub: 0.6,
         },
       });
@@ -124,62 +144,66 @@ export default function ImpactSection({ className = '' }: ImpactSectionProps) {
         { x: '10vw', autoAlpha: 0.25, ease: 'power2.in' },
         0.7
       );
-    }, sectionRef);
+    }, containerRef);
 
     return () => ctx.revert();
   }, []);
 
+  const bgImage = data?.backgroundImageUrl || '/images/oito.jpg';
+
   return (
     <section
-      ref={sectionRef}
-      className={`section-pinned ${className}`}
+      ref={containerRef}
+      className={`${className} relative overflow-hidden`}
     >
-      {/* Background Image */}
-      <div ref={bgRef} className="absolute inset-0 w-full h-full">
-        <img
-          src="/images/oito.jpg"
-          alt="Impact background"
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-background/60" />
-      </div>
+      <div ref={pinRef} className="h-screen w-full relative">
+        {/* Background Image */}
+        <div ref={bgRef} className="absolute inset-0 w-full h-full">
+          <img
+            src={bgImage}
+            alt="Impact background"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-background/60" />
+        </div>
 
-      {/* Content */}
-      <div className="relative z-10 h-full flex items-center px-8 md:px-[8vw]">
-        <div className="w-full flex flex-col lg:flex-row items-center justify-between gap-12">
-          {/* Metrics */}
-          <div ref={metricsRef} className="lg:w-[34vw]">
-            <p className="micro-label mb-6">Our impact in frames</p>
-            <div className="space-y-8">
-              {metrics.map((metric) => (
-                <div key={metric.label} className="flex items-baseline gap-2">
-                  <span className="text-5xl md:text-6xl font-bold text-white">
-                    <AnimatedCounter value={metric.value} suffix={metric.suffix} />
-                  </span>
-                  <span className="text-lg text-zinc-300">{metric.label}</span>
-                </div>
-              ))}
+        {/* Content */}
+        <div className="relative z-10 h-full flex items-center px-8 md:px-[8vw]">
+          <div className="w-full flex flex-col lg:flex-row items-center justify-between gap-12">
+            {/* Metrics */}
+            <div ref={metricsRef} className="lg:w-[34vw]">
+              <p className="micro-label mb-6">{heading}</p>
+              <div className="space-y-8">
+                {displayMetrics.map((metric) => (
+                  <div key={metric.label} className="flex items-baseline gap-2">
+                    <span className="text-5xl md:text-6xl font-bold text-white">
+                      <AnimatedCounter value={metric.value} suffix={metric.suffix} />
+                    </span>
+                    <span className="text-lg text-zinc-300">{metric.label}</span>
+                  </div>
+                ))}
+              </div>
+              <p className="text-zinc-400 mt-8 text-sm italic">
+                {subText}
+              </p>
             </div>
-            <p className="text-zinc-400 mt-8 text-sm italic">
-              «Κάθε νούμερο είναι ένας άνθρωπος, μια ανάσα, ένα βλέμμα στην κάμερα.»
-            </p>
-          </div>
 
-          {/* Quote Card */}
-          <div
-            ref={quoteRef}
-            className="lg:w-[34vw] w-full max-w-md perspective-1000"
-          >
-            <div className="glass-card p-8">
-              <Quote className="w-10 h-10 text-primary mb-6" />
+            {/* Quote Card */}
+            <div
+              ref={quoteRef}
+              className="lg:w-[34vw] w-full max-w-md perspective-1000"
+            >
+              <div className="glass-card p-8">
+                <Quote className="w-10 h-10 text-primary mb-6" />
 
-              <blockquote className="text-xl text-white leading-relaxed mb-6">
-                «Δεν κάνουμε video για να "συγκινήσουμε". Κάνουμε video για να γίνει η συγκίνηση αφορμή να αλλάξει κάτι – έστω και σε έναν άνθρωπο.»
-              </blockquote>
+                <blockquote className="text-xl text-white leading-relaxed mb-6">
+                  {quoteText}
+                </blockquote>
 
-              <cite className="text-sm text-zinc-400 not-italic">
-                — Vasilis Nakis, vculture
-              </cite>
+                <cite className="text-sm text-zinc-400 not-italic">
+                  — Vasilis Nakis, vculture
+                </cite>
+              </div>
             </div>
           </div>
         </div>

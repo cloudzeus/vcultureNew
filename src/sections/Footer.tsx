@@ -1,17 +1,10 @@
 import { Instagram, Linkedin, Video } from 'lucide-react';
 import { useContact } from '../context/ContactContext';
+import { useLanguage } from '@/context/LanguageContext';
 
 interface FooterProps {
   className?: string;
 }
-
-const navLinks = [
-  { label: 'Δουλειά', href: '#work' },
-  { label: 'Υπηρεσίες', href: '#services' },
-  { label: 'Studio', href: '#studio' },
-  { label: 'Journal', href: '#journal' },
-  { label: 'Επικοινωνία', href: '#contact' },
-];
 
 const socialLinks = [
   { icon: Instagram, href: '#', label: 'Instagram' },
@@ -21,6 +14,15 @@ const socialLinks = [
 
 export default function Footer({ className = '' }: FooterProps) {
   const { openContact } = useContact();
+  const { t } = useLanguage();
+
+  const navLinks = [
+    { label: t('Δουλειά', 'Work'), href: '#work' },
+    { label: t('Υπηρεσίες', 'Services'), href: '#services' },
+    { label: t('Studio', 'Studio'), href: '#studio' },
+    { label: t('Journal', 'Journal'), href: '#journal' },
+    { label: t('Επικοινωνία', 'Contact'), href: '#contact' },
+  ];
 
   const scrollToSection = (href: string) => {
     if (href === '#contact') {
@@ -59,7 +61,10 @@ export default function Footer({ className = '' }: FooterProps) {
 
             {/* Tagline */}
             <p className="text-zinc-400 max-w-md mb-6">
-              Κοινωνική βιντεοπαραγωγή με σαφήνεια και φροντίδα.
+              {t(
+                'Κοινωνική βιντεοπαραγωγή με σαφήνεια και φροντίδα.',
+                'Social video production with clarity and care.'
+              )}
             </p>
 
             {/* Email */}
@@ -109,10 +114,16 @@ export default function Footer({ className = '' }: FooterProps) {
         {/* Bottom Bar */}
         <div className="mt-16 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-sm text-zinc-200">
-            © 2026 vculture. Με επιφύλαξη παντός δικαιώματος.
+            {t(
+              '© 2026 vculture. Με επιφύλαξη παντός δικαιώματος.',
+              '© 2026 vculture. All rights reserved.'
+            )}
           </p>
           <p className="text-sm text-zinc-200">
-            Φτιαγμένο με φροντίδα για ιστορίες που μετράνε.
+            {t(
+              'Φτιαγμένο με φροντίδα για ιστορίες που μετράνε.',
+              'Crafted with care for stories that matter.'
+            )}
           </p>
         </div>
       </div>

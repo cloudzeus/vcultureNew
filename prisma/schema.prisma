@@ -1,0 +1,629 @@
+// schema.prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+  relationMode = "prisma" // For PlanetScale or similar
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique // gkozyris@i4ria.com
+  password      String?   // Hashed
+  role          String    @default("ADMIN")
+  
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  @@map("users")
+}
+
+// ==========================================
+// PROJECTS (Movies/Films)
+// ==========================================
+
+model Project {
+  id              String   @id @default(cuid())
+  title           String   @db.VarChar(255)
+  titleEn         String?  @db.VarChar(255)
+  slug            String   @unique @db.VarChar(255)
+  
+  // Categorization
+  categoryId      String
+  category        Category @relation(fields: [categoryId], references: [id])
+  subcategory     String?  @db.VarChar(255) // "Σχολικός εκφοβισμός"
+  subcategoryEn   String?  @db.VarChar(255)
+  type            ProjectType @default(SHORT_FILM)
+  
+  // Basic Info
+  year            Int
+  duration        String   @db.VarChar(100) // "15 λεπτά"
+  durationEn      String?  @db.VarChar(100)
+  director        String   @db.VarChar(255)
+  producer        String?  @db.VarChar(255)
+  writer          String?  @db.VarChar(255)
+  
+  // Content
+  shortDescription String  @db.Text // For cards/previews
+  shortDescriptionEn String? @db.Text
+  fullDescription  String  @db.Text // Full story
+  fullDescriptionEn String? @db.Text
+  logline         String?  @db.Text // One-liner
+  loglineEn       String?  @db.Text
+  
+  // Media
+  heroImageUrl    String?  @db.VarChar(500)
+  heroImageAlt    String?  @db.VarChar(255)
+  heroImageCredit String?  @db.VarChar(255)
+  
+  trailerUrl      String?  @db.VarChar(500) // YouTube/Vimeo
+  trailerPlatform String?  @db.VarChar(50) // "youtube", "vimeo"
+  fullVideoUrl    String?  @db.VarChar(500)
+  
+  // Gallery
+  galleryImages   ProjectImage[]
+  
+  // Impact & Metrics
+  impactItems     ImpactItem[]
+  totalViews      BigInt?  @default(0)
+  instagramViews  BigInt?
+  youtubeViews    BigInt?
+  
+  // Press & Links
+  pressLinks      PressLink[]
+  externalLinks   ExternalLink[]
+  
+  // Collaborations
+  partners        ProjectPartner[]
+  crew            CrewMember[]
+  
+  // SEO
+  seoTitle        String?  @db.VarChar(255)
+  seoDescription  String?  @db.VarChar(500)
+  ogImageUrl      String?  @db.VarChar(500)
+  keywords        String?  @db.Text // Comma-separated
+  
+  // Status & Publishing
+  status          Status   @default(DRAFT)
+  publishedAt     DateTime?
+  featured        Boolean  @default(false)
+  featuredOrder   Int?     // For homepage featured section
+  projectOrder    Int      @default(0) // For manual sorting on /movies
+  
+  // Timestamps
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  
+  @@index([slug])
+  @@index([categoryId])
+  @@index([status])
+  @@index([featured])
+  @@index([projectOrder])
+  @@map("projects")
+}
+
+model ProjectImage {
+  id          String   @id @default(cuid())
+  projectId   String
+  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  
+  imageUrl    String   @db.VarChar(500)
+  alt         String?  @db.VarChar(255)
+  caption     String?  @db.Text
+  credit      String?  @db.VarChar(255)
+  order       Int      @default(0)
+  
+  width       Int?
+  height      Int?
+  
+  createdAt   DateTime @default(now())
+  
+  @@index([projectId])
+  @@map("project_images")
+}
+
+model ImpactItem {
+  id          String   @id @default(cuid())
+  projectId   String
+  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  
+  text        String   @db.Text // "1.000.000+ προβολές στο Instagram"
+  textEn      String?  @db.Text
+  icon        String?  @db.VarChar(100) // Icon identifier
+  metric      BigInt?  // Numerical value for stats
+  metricLabel String?  @db.VarChar(100) // "views", "likes", etc
+  metricLabelEn String? @db.VarChar(100)
+  order       Int      @default(0)
+  
+  @@index([projectId])
+  @@map("impact_items")
+}
+
+model PressLink {
+  id          String    @id @default(cuid())
+  projectId   String?
+  project     Project?  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  
+  outlet      String    @db.VarChar(255) // "VICE Greece"
+  title       String    @db.VarChar(500)
+  url         String    @db.VarChar(1000)
+  publishDate DateTime?
+  excerpt     String?   @db.Text
+  
+  createdAt   DateTime  @default(now())
+  
+  @@index([projectId])
+  @@map("press_links")
+}
+
+model ExternalLink {
+  id          String   @id @default(cuid())
+  projectId   String
+  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  
+  label       String   @db.VarChar(255) // "Instagram Post"
+  url         String   @db.VarChar(1000)
+  type        String?  @db.VarChar(50) // "instagram", "youtube", "website"
+  
+  @@index([projectId])
+  @@map("external_links")
+}
+
+model CrewMember {
+  id          String   @id @default(cuid())
+  projectId   String
+  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  
+  name        String   @db.VarChar(255)
+  nameEn      String?  @db.VarChar(255)
+  role        String   @db.VarChar(255) // "Σκηνοθεσία", "Μοντάζ"
+  roleEn      String?  @db.VarChar(255)
+  bio         String?  @db.Text
+  bioEn       String?  @db.Text
+  imageUrl    String?  @db.VarChar(500)
+  order       Int      @default(0)
+  
+  // Social Links
+  instagramUrl String?  @db.VarChar(500)
+  linkedinUrl  String?  @db.VarChar(500)
+  websiteUrl   String?  @db.VarChar(500)
+  
+  @@index([projectId])
+  @@map("crew_members")
+}
+
+// ==========================================
+// CATEGORIES (Είδη)
+// ==========================================
+
+model Category {
+  id              String    @id @default(cuid())
+  name            String    @unique @db.VarChar(255) // "Παιδιά & Νεολαία"
+  nameEn          String?   @unique @db.VarChar(255)
+  slug            String    @unique @db.VarChar(255)
+  description     String?   @db.Text
+  descriptionEn   String?   @db.Text
+  
+  // Display
+  color           String?   @db.VarChar(50) // Hex color "#FF5722"
+  icon            String?   @db.VarChar(100)
+  order           Int       @default(0)
+  featured        Boolean   @default(false)
+  
+  // SEO
+  seoTitle        String?   @db.VarChar(255)
+  seoDescription  String?   @db.VarChar(500)
+  
+  // Relations
+  projects        Project[]
+  
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  
+  @@index([slug])
+  @@index([order])
+  @@map("categories")
+}
+
+// ==========================================
+// PARTNERS & COLLABORATORS
+// ==========================================
+
+model Partner {
+  id          String          @id @default(cuid())
+  name        String          @unique @db.VarChar(255)
+  nameEn      String?         @db.VarChar(255)
+  slug        String          @unique @db.VarChar(255)
+  logoUrl     String?         @db.VarChar(500)
+  websiteUrl  String?         @db.VarChar(500)
+  type        PartnerType     @default(NGO)
+  description String?         @db.Text
+  descriptionEn String?       @db.Text
+  
+  projects    ProjectPartner[]
+  
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  
+  @@index([slug])
+  @@map("partners")
+}
+
+model ProjectPartner {
+  projectId String
+  partnerId String
+  
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  partner   Partner @relation(fields: [partnerId], references: [id], onDelete: Cascade)
+  
+  role      String? @db.VarChar(255) // "Παραγωγή", "Υποστήριξη"
+  roleEn    String? @db.VarChar(255)
+  
+  @@id([projectId, partnerId])
+  @@index([projectId])
+  @@index([partnerId])
+  @@map("project_partners")
+}
+
+// ==========================================
+// JOURNAL (Blog Posts)
+// ==========================================
+
+model JournalPost {
+  id              String    @id @default(cuid())
+  title           String    @db.VarChar(500)
+  titleEn         String?   @db.VarChar(500)
+  slug            String    @unique @db.VarChar(255)
+  
+  // Content
+  excerpt         String    @db.Text // Short preview
+  excerptEn       String?   @db.Text
+  content         String    @db.LongText // Full markdown/HTML content
+  contentEn       String?   @db.LongText
+  
+  // Classification
+  type            PostType  @default(ESSAY)
+  
+  // Media
+  featuredImageUrl    String?  @db.VarChar(500)
+  featuredImageAlt    String?  @db.VarChar(255)
+  featuredImageCredit String?  @db.VarChar(255)
+  
+  galleryImages   PostImage[]
+  
+  // Author
+  authorName      String    @db.VarChar(255)
+  authorBio       String?   @db.Text
+  authorAvatarUrl String?   @db.VarChar(500)
+  
+  // Metadata
+  readTime        Int?      // Minutes
+  
+  // Relations
+  tags            PostTag[]
+  relatedProjects String?   @db.Text // Comma-separated project IDs
+  
+  // SEO
+  seoTitle        String?   @db.VarChar(255)
+  seoDescription  String?   @db.VarChar(500)
+  ogImageUrl      String?   @db.VarChar(500)
+  
+  // Publishing
+  status          Status    @default(DRAFT)
+  publishedAt     DateTime?
+  scheduledFor    DateTime?
+  featured        Boolean   @default(false)
+  
+  // Timestamps
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  
+  @@index([slug])
+  @@index([status])
+  @@index([featured])
+  @@index([type])
+  @@map("journal_posts")
+}
+
+model PostImage {
+  id          String      @id @default(cuid())
+  postId      String
+  post        JournalPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  
+  imageUrl    String      @db.VarChar(500)
+  alt         String?     @db.VarChar(255)
+  caption     String?     @db.Text
+  credit      String?     @db.VarChar(255)
+  order       Int         @default(0)
+  
+  width       Int?
+  height      Int?
+  
+  @@index([postId])
+  @@map("post_images")
+}
+
+model Tag {
+  id        String    @id @default(cuid())
+  name      String    @unique @db.VarChar(100)
+  slug      String    @unique @db.VarChar(100)
+  
+  posts     PostTag[]
+  
+  createdAt DateTime  @default(now())
+  
+  @@index([slug])
+  @@map("tags")
+}
+
+model PostTag {
+  postId String
+  tagId  String
+  
+  post   JournalPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  tag    Tag         @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  
+  @@id([postId, tagId])
+  @@index([postId])
+  @@index([tagId])
+  @@map("post_tags")
+}
+
+// ==========================================
+// HOME PAGE SECTIONS
+// ==========================================
+
+model HeroSection {
+  id          String  @id @default(cuid())
+  
+  // Title (multi-line)
+  titleMain       String  @db.VarChar(255) // "vculture"
+  titleMainEn     String? @db.VarChar(255)
+  titleSubtitle1  String  @db.VarChar(255) // "Κοινωνικές ιστορίες"
+  titleSubtitle1En String? @db.VarChar(255)
+  titleSubtitle2  String  @db.VarChar(255) // "με αληθινούς ανθρώπους"
+  titleSubtitle2En String? @db.VarChar(255)
+  
+  description     String  @db.Text
+  descriptionEn   String? @db.Text
+  
+  // CTAs
+  primaryCtaText    String  @db.VarChar(255)
+  primaryCtaTextEn  String? @db.VarChar(255)
+  primaryCtaLink    String  @db.VarChar(500)
+  primaryCtaStyle   String  @db.VarChar(50) @default("primary")
+  
+  secondaryCtaText  String? @db.VarChar(255)
+  secondaryCtaTextEn String? @db.VarChar(255)
+  secondaryCtaLink  String? @db.VarChar(500)
+  secondaryCtaStyle String? @db.VarChar(50) @default("outline")
+  
+  // Background Media
+  backgroundImageUrl String? @db.VarChar(500)
+  backgroundImageAlt String? @db.VarChar(255)
+  backgroundOverlay  String? @db.VarChar(50) // "dark", "light", "gradient"
+  backgroundOpacity  Float?  @default(0.5)
+  
+  backgroundVideoUrl     String? @db.VarChar(500)
+  backgroundVideoPoster  String? @db.VarChar(500)
+  backgroundVideoLoop    Boolean @default(true)
+  backgroundVideoAutoplay Boolean @default(true)
+  
+  // Special Elements
+  showAfisa          Boolean @default(false)
+  afisaUrl           String? @db.VarChar(500)
+  afisaImageUrl      String? @db.VarChar(500)
+  showScrollIndicator Boolean @default(true)
+  
+  // Status
+  active      Boolean  @default(false)
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@index([active])
+  @@map("hero_sections")
+}
+
+model ImpactSection {
+  id                 String  @id @default(cuid())
+  
+  heading            String  @db.VarChar(255)
+  headingEn          String? @db.VarChar(255)
+  description        String? @db.Text
+  descriptionEn      String? @db.Text
+  backgroundImageUrl String? @db.VarChar(500)
+  
+  stats       ImpactStat[]
+  
+  active      Boolean  @default(true)
+  order       Int      @default(0)
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@map("impact_sections")
+}
+
+model ImpactStat {
+  id              String        @id @default(cuid())
+  impactSectionId String
+  section         ImpactSection @relation(fields: [impactSectionId], references: [id], onDelete: Cascade)
+  
+  value           Int           @default(0)
+  suffix          String?       @db.VarChar(20)
+  suffixEn        String?       @db.VarChar(20)
+  label           String        @db.VarChar(255)
+  labelEn         String?       @db.VarChar(255)
+  order           Int           @default(0)
+
+  @@index([impactSectionId])
+  @@map("impact_stats")
+}
+
+model StudioSection {
+  id                 String  @id @default(cuid())
+  
+  eyebrow            String? @db.VarChar(255) // "Το Studio"
+  eyebrowEn          String? @db.VarChar(255)
+  headline           String  @db.VarChar(500) // "Η vculture είναι ένα social-first video studio."
+  headlineEn         String? @db.VarChar(500)
+  description        String? @db.Text
+  descriptionEn      String? @db.Text
+  backgroundImageUrl String? @db.VarChar(500)
+  
+  // Card on the right
+  cardTitle          String? @db.VarChar(255)
+  cardTitleEn        String? @db.VarChar(255)
+  cardSubtitle       String? @db.VarChar(255)
+  cardSubtitleEn     String? @db.VarChar(255)
+  cardDescription    String? @db.Text
+  cardDescriptionEn  String? @db.Text
+  cardImageUrl       String? @db.VarChar(500)
+  cardVideoUrl       String? @db.VarChar(500)
+  
+  active             Boolean @default(true)
+  
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+  
+  @@map("studio_sections")
+}
+
+model ProcessSection {
+  id                 String  @id @default(cuid())
+  
+  headline           String  @db.VarChar(500)
+  headlineEn         String? @db.VarChar(500)
+  description        String? @db.Text
+  descriptionEn      String? @db.Text
+  backgroundImageUrl String? @db.VarChar(500)
+  
+  active             Boolean @default(true)
+  
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+  
+  @@map("process_sections")
+}
+
+model StorySection {
+  id                 String  @id @default(cuid())
+  
+  label              String? @db.VarChar(100) // "Ντοκιμαντέρ"
+  labelEn            String? @db.VarChar(100)
+  title              String  @db.VarChar(255) // "Ρόδα είναι και γυρίζει"
+  titleEn            String? @db.VarChar(255)
+  description        String? @db.Text
+  descriptionEn      String? @db.Text
+  backgroundImageUrl String? @db.VarChar(500)
+  videoUrl           String? @db.VarChar(500)
+  
+  active             Boolean @default(true)
+  
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+  
+  @@map("story_sections")
+}
+
+model BTSSection {
+  id                 String  @id @default(cuid())
+  
+  title              String  @db.VarChar(255) // "Πίσω από τις κάμερες"
+  titleEn            String? @db.VarChar(255)
+  description        String? @db.Text
+  descriptionEn      String? @db.Text
+  
+  cards              BTSCard[]
+  
+  active             Boolean @default(true)
+  
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+  
+  @@map("bts_sections")
+}
+
+model BTSCard {
+  id           String     @id @default(cuid())
+  sectionId    String
+  section      BTSSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+  
+  label        String     @db.VarChar(255)
+  labelEn      String?    @db.VarChar(255)
+  imageUrl     String     @db.VarChar(500)
+  order        Int        @default(0)
+
+  @@index([sectionId])
+  @@map("bts_cards")
+}
+
+// Enums (inferred from usage)
+enum ProjectType {
+  SHORT_FILM
+  DOCUMENTARY
+  CAMPAIGN
+  COMMERCIAL
+}
+
+enum PartnerType {
+  NGO
+  INSTITUTION
+  CORPORATE
+  FESTIVAL
+}
+
+enum PostType {
+  ESSAY
+  INTERVIEW
+  NEWS
+  CASE_STUDY
+}
+
+enum Status {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+model ServicesSection {
+  id          String  @id @default(cuid())
+  
+  headline           String  @db.VarChar(500)
+  headlineEn         String? @db.VarChar(500)
+  description        String? @db.Text
+  descriptionEn      String? @db.Text
+  backgroundImageUrl String? @db.VarChar(500)
+  
+  services           ServiceItem[]
+  
+  active      Boolean @default(true)
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@map("services_sections")
+}
+
+model ServiceItem {
+  id                String          @id @default(cuid())
+  servicesSectionId String
+  section           ServicesSection @relation(fields: [servicesSectionId], references: [id], onDelete: Cascade)
+  
+  iconName          String          @db.VarChar(100)
+  title             String          @db.VarChar(255)
+  titleEn           String?         @db.VarChar(255)
+  description       String?         @db.Text
+  descriptionEn     String?         @db.Text
+  bullets           Json? // Store as array of strings
+  bulletsEn         Json?
+  order             Int             @default(0)
+
+  @@index([servicesSectionId])
+  @@map("service_items")
+}

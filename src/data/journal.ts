@@ -1,11 +1,15 @@
 export interface JournalPost {
     id: string;
     title: string;
+    titleEn?: string;
     category: string;
+    categoryEn?: string;
     readTime: string;
     image: string;
     excerpt: string;
+    excerptEn?: string;
     content: string;
+    contentEn?: string;
     date: string;
     author?: string;
 }
@@ -14,10 +18,13 @@ export const journalPosts: JournalPost[] = [
     {
         id: 'camera-off',
         title: 'Όταν η κάμερα σβήνει, τι μένει στους ανθρώπους;',
+        titleEn: 'When the Camera Turns Off, What Remains?',
         category: 'Field Notes',
+        categoryEn: 'Field Notes',
         readTime: '6 min read',
         image: '/images/bts-1.jpg',
         excerpt: 'Μια σκέψη για το τι μένει πίσω από τα γυρίσματα και πώς επηρεάζουμε τους ανθρώπους που συναντάμε.',
+        excerptEn: 'A reflection on what remains after filming and how we impact the people we meet.',
         date: '2024-01-15',
         author: 'Βασίλης Νάκης',
         content: `
@@ -49,10 +56,13 @@ export const journalPosts: JournalPost[] = [
     {
         id: 'bullying-story',
         title: 'Μιλώντας για bullying χωρίς να το ξαναζωντανεύουμε',
+        titleEn: 'Talking About Bullying Without Reliving It',
         category: 'Production',
+        categoryEn: 'Production',
         readTime: '5 min read',
         image: '/images/bts-2.jpg',
         excerpt: 'Πώς προσεγγίζουμε ευαίσθητα θέματα όπως ο σχολικός εκφοβισμός με τρόπο που θεραπεύει αντί να τραυματίζει.',
+        excerptEn: 'How we approach sensitive topics like school bullying in a way that heals rather than hurts.',
         date: '2024-01-10',
         author: 'Βασίλης Νάκης',
         content: `
@@ -79,10 +89,13 @@ export const journalPosts: JournalPost[] = [
     {
         id: 'vulnerability-dignity',
         title: 'Πώς αφηγείσαι την ευαλωτότητα με αξιοπρέπεια',
+        titleEn: 'How to Narrate Vulnerability with Dignity',
         category: 'Post',
+        categoryEn: 'Post',
         readTime: '7 min read',
         image: '/images/bts-3.jpg',
         excerpt: 'Η τέχνη της ευαίσθητης αφήγησης: πώς δίνουμε φωνή σε ευάλωτες ομάδες χωρίς να τις εκθέτουμε.',
+        excerptEn: 'The art of sensitive storytelling: how we give voice to vulnerable groups without exposing them.',
         date: '2024-01-05',
         author: 'Μαρία Κωνσταντίνου',
         content: `
@@ -115,10 +128,13 @@ export const journalPosts: JournalPost[] = [
     {
         id: 'vasilis-nakis-vision',
         title: 'Ο Βασίλης Νάκης και το όραμα της vculture',
+        titleEn: 'Vasilis Nakis and the Vision of vculture',
         category: 'Studio',
+        categoryEn: 'Studio',
         readTime: '4 min read',
         image: '/images/vaggelis-nakis-hamogelo-tou-paidiou-beater-gr.jpg',
         excerpt: 'Η ιστορία πίσω από το studio και το όραμα για μια διαφορετική προσέγγιση στην κοινωνική αφήγηση.',
+        excerptEn: 'The story behind the studio and the vision for a different approach to social storytelling.',
         date: '2024-01-01',
         author: 'vculture Team',
         content: `
