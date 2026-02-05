@@ -75,7 +75,7 @@ export default function JournalClient() {
                         <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
                             {t('Journal of voices', 'Journal of voices')}
                         </h1>
-                        <p className="text-xl text-white/60 leading-relaxed">
+                        <p className="text-xl text-white/80 leading-relaxed">
                             {t(
                                 'Άρθρα, σημειώσεις από τα γυρίσματα και φωτογραφικά δοκίμια που φωτίζουν όσα δεν φαίνονται στην οθόνη.',
                                 'Articles, field notes, and photo essays illuminating what is not seen on screen.'
@@ -117,7 +117,7 @@ export default function JournalClient() {
                                     </div>
 
                                     <div className="p-6 md:p-8">
-                                        <div className="flex items-center gap-4 mb-4 text-xs text-white/50">
+                                        <div className="flex items-center gap-4 mb-4 text-xs text-white/70">
                                             <span className="flex items-center gap-1.5">
                                                 <Clock className="w-3.5 h-3.5" />
                                                 {post.readTime}
@@ -136,11 +136,11 @@ export default function JournalClient() {
                                             {t(post.title, post.titleEn)}
                                         </h2>
 
-                                        <p className="text-white/70 group-hover:text-white/80 mb-6 line-clamp-2 leading-relaxed transition-colors duration-300">
+                                        <p className="text-white/80 group-hover:text-white mb-6 line-clamp-2 leading-relaxed transition-colors duration-300">
                                             {t(post.excerpt, post.excerptEn)}
                                         </p>
 
-                                        <div className="flex items-center gap-2 text-sm font-medium text-primary/80 group-hover:text-primary transition-all duration-300">
+                                        <div className="flex items-center gap-2 text-sm font-medium text-primary group-hover:text-primary/100 transition-all duration-300">
                                             <span>{t('Διάβασε περισσότερα', 'Read more')}</span>
                                             <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-2" />
                                         </div>
@@ -151,7 +151,7 @@ export default function JournalClient() {
                     </div>
 
                     <div className="mt-20 text-center max-w-3xl mx-auto">
-                        <p className="text-xl text-white/60 italic">
+                        <p className="text-xl text-white/80 italic">
                             {t(
                                 '«Αν ένα κείμενο εδώ σε άγγιξε, μοιράσου το. Κάπως έτσι αρχίζει η αλλαγή.»',
                                 '“If a text here touched you, share it. That is how change begins.”'

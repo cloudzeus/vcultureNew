@@ -104,16 +104,16 @@ export default function MoviesClient() {
                                 </h1>
 
                                 {/* Subtitle */}
-                                <p className="text-xl md:text-2xl text-white/70 mb-8">
+                                <p className="text-xl md:text-2xl text-white/80 mb-8">
                                     {t(movie.subtitle, movie.subtitleEn)}
                                 </p>
 
                                 {/* Description */}
-                                <p className="text-lg text-white/60 mb-8 leading-relaxed">
+                                <p className="text-lg text-white/80 mb-8 leading-relaxed">
                                     {t(movie.description, movie.descriptionEn)}
                                 </p>
 
-                                <div className="flex flex-wrap gap-6 mb-10 text-white/50">
+                                <div className="flex flex-wrap gap-6 mb-10 text-white/70">
                                     <div>
                                         <span className="text-xs uppercase tracking-wider block mb-1">{t('Έτος', 'Year')}</span>
                                         <span className="text-sm font-medium text-white">{movie.year}</span>
@@ -151,7 +151,7 @@ export default function MoviesClient() {
                         <h2 className="text-4xl md:text-6xl font-bold text-white mb-6">
                             {t('Έχεις μια ιστορία να πεις;', 'Do you have a story to tell?')}
                         </h2>
-                        <p className="text-xl text-white/60 mb-10 max-w-2xl mx-auto">
+                        <p className="text-xl text-white/80 mb-10 max-w-2xl mx-auto">
                             {t(
                                 'Ας τη φέρουμε στη ζωή μαζί. Επικοινώνησε μαζί μας για να ξεκινήσουμε.',
                                 'Let\'s bring it to life together. Contact us to get started.'

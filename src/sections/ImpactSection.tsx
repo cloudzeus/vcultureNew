@@ -183,7 +183,7 @@ export default function ImpactSection({ className = '', data }: ImpactSectionPro
                   </div>
                 ))}
               </div>
-              <p className="text-zinc-400 mt-8 text-sm italic">
+              <p className="text-zinc-300 mt-8 text-sm italic">
                 {subText}
               </p>
             </div>
@@ -200,7 +200,7 @@ export default function ImpactSection({ className = '', data }: ImpactSectionPro
                   {quoteText}
                 </blockquote>
 
-                <cite className="text-sm text-zinc-400 not-italic">
+                <cite className="text-sm text-zinc-300 not-italic">
                   — Vasilis Nakis, vculture
                 </cite>
               </div>

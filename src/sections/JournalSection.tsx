@@ -157,7 +157,7 @@ export default function JournalSection({ className = '', posts: dynamicPosts }: 
                   {article.category}
                 </span>
 
-                <h3 className="text-lg md:text-3xl lg:text-5xl xl:text-6xl font-bold text-white/20 group-hover:text-white transition-all duration-700 leading-[1.1] text-balance max-w-[90vw] mx-auto">
+                <h3 className="text-lg md:text-3xl lg:text-5xl xl:text-6xl font-bold text-white/40 group-hover:text-white transition-all duration-700 leading-[1.1] text-balance max-w-[90vw] mx-auto">
                   {article.title}
                 </h3>
 
@@ -174,7 +174,7 @@ export default function JournalSection({ className = '', posts: dynamicPosts }: 
             onClick={() => router.push('/journal')}
             className="group inline-flex flex-col items-center gap-2"
           >
-            <span className="text-sm font-medium text-zinc-400 group-hover:text-white transition-colors duration-300 tracking-widest uppercase">
+            <span className="text-sm font-medium text-zinc-300 group-hover:text-white transition-colors duration-300 tracking-widest uppercase">
               {t('Δείτε όλο το journal', 'Explore all stories')}
             </span>
             <div className="w-12 h-px bg-primary/40 group-hover:w-24 group-hover:bg-primary transition-all duration-500" />

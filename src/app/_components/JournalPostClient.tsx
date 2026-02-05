@@ -71,7 +71,7 @@ export default function JournalPostClient({ postId }: { postId: string }) {
                         </h1>
 
                         {/* Meta Info */}
-                        <div className="flex flex-wrap gap-6 mb-12 text-white/50 pb-8 border-b border-white/10">
+                        <div className="flex flex-wrap gap-6 mb-12 text-white/70 pb-8 border-b border-white/10">
                             <div className="flex items-center gap-2">
                                 <Calendar className="w-4 h-4" />
                                 <span className="text-sm">
@@ -95,14 +95,14 @@ export default function JournalPostClient({ postId }: { postId: string }) {
                         </div>
 
                         {/* Excerpt */}
-                        <p className="text-xl text-white/70 mb-12 leading-relaxed italic border-l-4 border-primary pl-6">
+                        <p className="text-xl text-white/80 mb-12 leading-relaxed italic border-l-4 border-primary pl-6">
                             {post.excerpt}
                         </p>
 
                         {/* Content */}
                         <div className="prose prose-invert prose-lg max-w-none">
                             <div
-                                className="text-white/80 leading-relaxed space-y-6"
+                                className="text-white/90 leading-relaxed space-y-6"
                                 dangerouslySetInnerHTML={{
                                     __html: post.content
                                         .split('\n')
@@ -144,7 +144,7 @@ export default function JournalPostClient({ postId }: { postId: string }) {
                             >
                                 Επιστροφή στο Journal
                             </button>
-                            <div className="text-white/60 text-sm">
+                            <div className="text-white/80 text-sm">
                                 Μοιράσου αυτό το άρθρο για να φτάσει σε περισσότερους ανθρώπους
                             </div>
                         </div>
