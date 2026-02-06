@@ -7,6 +7,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Play } from 'lucide-react';
 import { Movie } from '../../data/movies';
 import VideoModal from '../../components/VideoModal';
+import ContactModal from '../../components/ContactModal';
 import Navigation from './NavigationNext';
 import { useLanguage } from '@/context/LanguageContext';
 
@@ -25,23 +26,28 @@ export default function MoviesClient({ movies }: MoviesClientProps) {
     const sectionsRef = useRef<(HTMLDivElement | null)[]>([]);
 
     useLayoutEffect(() => {
-        // ... (existing code for animations)
         // Scroll to top on mount
         window.scrollTo(0, 0);
 
         const ctx = gsap.context(() => {
-            sectionsRef.current.forEach((section) => {
-                if (!section) return;
+            // Filter out null refs and ensure we have elements
+            const validSections = sectionsRef.current.filter(Boolean);
 
-                // Simple fade-in animation on scroll
-                const content = section.querySelector('.movie-content') as Element | null;
-                const image = section.querySelector('.movie-image') as Element | null;
-                const playBtn = section.querySelector('.play-btn') as Element | null;
+            validSections.forEach((section) => {
+                const content = section?.querySelector('.movie-content');
+                const image = section?.querySelector('.movie-image');
+                const playBtn = section?.querySelector('.play-btn');
 
                 if (content && image) {
-                    gsap.fromTo(
+                    // Set initial state immediately to avoid FOUC or race conditions
+                    gsap.set([content, image, playBtn].filter(Boolean), {
+                        autoAlpha: 0,
+                        y: 50
+                    });
+
+                    // Animate to visible
+                    gsap.to(
                         [content, image, playBtn].filter(Boolean),
-                        { autoAlpha: 0, y: 50 },
                         {
                             autoAlpha: 1,
                             y: 0,
@@ -68,7 +74,7 @@ export default function MoviesClient({ movies }: MoviesClientProps) {
             clearTimeout(timer);
             ctx.revert();
         };
-    }, []);
+    }, [movies]); // Added movies dependency to ensure animation runs when data is available
 
     const handlePlayVideo = (videoUrl: string, title: string) => {
         setSelectedVideo({ url: videoUrl, title });
@@ -77,6 +83,7 @@ export default function MoviesClient({ movies }: MoviesClientProps) {
     return (
         <>
             <Navigation />
+            <ContactModal />
             <div className="relative bg-background">
                 <div className="noise-overlay" />
 

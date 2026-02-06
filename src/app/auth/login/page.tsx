@@ -97,10 +97,7 @@ export default function LoginPage() {
                     </form>
 
                     {/* Helper Text */}
-                    <div className="mt-6 text-center text-sm text-white/40">
-                        <p>Default credentials:</p>
-                        <p className="font-mono text-xs mt-1">gkozyris@i4ria.com / 1f1femsk</p>
-                    </div>
+
                 </div>
 
                 {/* Back to Home */}

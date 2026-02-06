@@ -14,6 +14,20 @@ async function main() {
         console.log('Attempting to connect to DB...')
         await prisma.$connect()
         console.log('Successfully connected to DB')
+
+        const activeHero = await prisma.heroSection.findFirst({
+            where: { active: true }
+        });
+
+        console.log('Active Hero Section:', JSON.stringify(activeHero, null, 2));
+
+        const allHeroes = await prisma.heroSection.findMany();
+        console.log('All Hero Sections:', JSON.stringify(allHeroes, null, 2));
+
+        // Check if there are ANY hero sections
+        const count = await prisma.heroSection.count();
+        console.log('Total Hero Sections:', count);
+
         const userCount = await prisma.user.count()
         console.log('User count:', userCount)
 

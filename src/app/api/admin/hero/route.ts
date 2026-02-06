@@ -5,9 +5,16 @@ import { auth } from '@/auth';
 // GET active hero section
 export async function GET() {
     try {
-        const hero = await prisma.heroSection.findFirst({
+        let hero = await prisma.heroSection.findFirst({
             where: { active: true },
         });
+
+        if (!hero) {
+            // Fallback to the latest record if no active one exists
+            hero = await prisma.heroSection.findFirst({
+                orderBy: { updatedAt: 'desc' }
+            });
+        }
 
         return NextResponse.json(hero);
     } catch (error) {
@@ -26,6 +33,18 @@ export async function POST(request: NextRequest) {
 
         const data = await request.json();
 
+        // Determine ID to update
+        let idToUpdate = data.id;
+        if (!idToUpdate) {
+            // Try to find the latest existing record to update
+            const existing = await prisma.heroSection.findFirst({
+                orderBy: { updatedAt: 'desc' }
+            });
+            if (existing) {
+                idToUpdate = existing.id;
+            }
+        }
+
         // Deactivate all other hero sections
         await prisma.heroSection.updateMany({
             where: { active: true },
@@ -34,7 +53,7 @@ export async function POST(request: NextRequest) {
 
         // Create or update hero section
         const hero = await prisma.heroSection.upsert({
-            where: { id: data.id || 'new' },
+            where: { id: idToUpdate || 'new' },
             create: {
                 titleMain: data.titleMain,
                 titleMainEn: data.titleMainEn,

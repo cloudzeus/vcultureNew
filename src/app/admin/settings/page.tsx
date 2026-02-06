@@ -323,7 +323,11 @@ export default function SettingsPage() {
                                     primaryCtaText: hero.primaryCtaText,
                                     secondaryCtaText: hero.secondaryCtaText
                                 }}
-                                onTranslate={(t) => setHero(prev => ({ ...prev, ...t }))}
+                                onTranslate={(t) => {
+                                    const mapped: any = {};
+                                    Object.keys(t).forEach(k => mapped[`${k}En`] = t[k]);
+                                    setHero(prev => ({ ...prev, ...mapped }));
+                                }}
                             />
                         </CardHeader>
                         <CardContent className="space-y-6">
@@ -425,7 +429,11 @@ export default function SettingsPage() {
                                     cardSubtitle: studio.cardSubtitle,
                                     cardDescription: studio.cardDescription
                                 }}
-                                onTranslate={(t) => setStudio(prev => ({ ...prev, ...t }))}
+                                onTranslate={(t) => {
+                                    const mapped: any = {};
+                                    Object.keys(t).forEach(k => mapped[`${k}En`] = t[k]);
+                                    setStudio(prev => ({ ...prev, ...mapped }));
+                                }}
                             />
                         </CardHeader>
                         <CardContent className="space-y-6">
@@ -475,7 +483,11 @@ export default function SettingsPage() {
                             <CardTitle className="text-white">Process Section</CardTitle>
                             <AITranslateButton
                                 fieldsToTranslate={{ headline: process.headline, description: process.description || '' }}
-                                onTranslate={(t) => setProcess(prev => ({ ...prev, ...t }))}
+                                onTranslate={(t) => {
+                                    const mapped: any = {};
+                                    Object.keys(t).forEach(k => mapped[`${k}En`] = t[k]);
+                                    setProcess(prev => ({ ...prev, ...mapped }));
+                                }}
                             />
                         </CardHeader>
                         <CardContent className="space-y-6">
@@ -511,7 +523,11 @@ export default function SettingsPage() {
                             <CardTitle className="text-white">Story Section</CardTitle>
                             <AITranslateButton
                                 fieldsToTranslate={{ label: story.label, title: story.title, description: story.description }}
-                                onTranslate={(t) => setStory(prev => ({ ...prev, ...t }))}
+                                onTranslate={(t) => {
+                                    const mapped: any = {};
+                                    Object.keys(t).forEach(k => mapped[`${k}En`] = t[k]);
+                                    setStory(prev => ({ ...prev, ...mapped }));
+                                }}
                             />
                         </CardHeader>
                         <CardContent className="space-y-6">
@@ -550,7 +566,11 @@ export default function SettingsPage() {
                             <CardTitle className="text-white">BTS Section</CardTitle>
                             <AITranslateButton
                                 fieldsToTranslate={{ title: bts.title, description: bts.description || '' }}
-                                onTranslate={(t) => setBts(prev => ({ ...prev, ...t }))}
+                                onTranslate={(t) => {
+                                    const mapped: any = {};
+                                    Object.keys(t).forEach(k => mapped[`${k}En`] = t[k]);
+                                    setBts(prev => ({ ...prev, ...mapped }));
+                                }}
                             />
                         </CardHeader>
                         <CardContent className="space-y-6">
@@ -646,7 +666,11 @@ export default function SettingsPage() {
                             <CardTitle className="text-white">Impact Section</CardTitle>
                             <AITranslateButton
                                 fieldsToTranslate={{ heading: impact.heading, description: impact.description || '' }}
-                                onTranslate={(t) => setImpact(prev => ({ ...prev, ...t }))}
+                                onTranslate={(t) => {
+                                    const mapped: any = {};
+                                    Object.keys(t).forEach(k => mapped[`${k}En`] = t[k]);
+                                    setImpact(prev => ({ ...prev, ...mapped }));
+                                }}
                             />
                         </CardHeader>
                         <CardContent className="space-y-6">
