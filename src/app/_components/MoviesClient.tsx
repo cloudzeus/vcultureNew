@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Play } from 'lucide-react';
-import { movies } from '../../data/movies';
+import { Movie } from '../../data/movies';
 import VideoModal from '../../components/VideoModal';
 import Navigation from './NavigationNext';
 import { useLanguage } from '@/context/LanguageContext';
@@ -14,7 +14,11 @@ if (typeof window !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger);
 }
 
-export default function MoviesClient() {
+interface MoviesClientProps {
+    movies: Movie[];
+}
+
+export default function MoviesClient({ movies }: MoviesClientProps) {
     const router = useRouter();
     const { t } = useLanguage();
     const [selectedVideo, setSelectedVideo] = useState<{ url: string; title: string } | null>(null);

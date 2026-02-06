@@ -2,6 +2,16 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { auth } from '@/auth';
 
+// Helper to serialize BigInt
+const serializeProject = (project: any) => {
+    return {
+        ...project,
+        totalViews: project.totalViews?.toString() || '0',
+        instagramViews: project.instagramViews?.toString() || '0',
+        youtubeViews: project.youtubeViews?.toString() || '0',
+    };
+};
+
 // GET all projects
 export async function GET() {
     try {
@@ -18,12 +28,7 @@ export async function GET() {
         });
 
         // Convert BigInt to string for JSON serialization
-        const serializedProjects = projects.map(project => ({
-            ...project,
-            totalViews: project.totalViews?.toString() || '0',
-            instagramViews: project.instagramViews?.toString() || '0',
-            youtubeViews: project.youtubeViews?.toString() || '0',
-        }));
+        const serializedProjects = projects.map(serializeProject);
 
         return NextResponse.json(serializedProjects);
     } catch (error) {
@@ -42,11 +47,30 @@ export async function POST(request: NextRequest) {
 
         const data = await request.json();
 
+        // Generate base slug
+        let baseSlug = data.slug;
+        if (!baseSlug) {
+            baseSlug = data.title
+                .toLowerCase()
+                .trim()
+                .replace(/[^\w\s-]/g, '') // Remove special chars
+                .replace(/\s+/g, '-')     // Replace spaces with -
+                .replace(/-+/g, '-');     // Replace multiple - with single -
+        }
+
+        // Ensure unique slug
+        let slug = baseSlug;
+        let counter = 1;
+        while (await prisma.project.findUnique({ where: { slug } })) {
+            slug = `${baseSlug}-${counter}`;
+            counter++;
+        }
+
         const project = await prisma.project.create({
             data: {
                 title: data.title,
                 titleEn: data.titleEn,
-                slug: data.slug || data.title.toLowerCase().replace(/\s+/g, '-'),
+                slug: slug,
                 categoryId: data.categoryId,
                 subcategory: data.subcategory,
                 subcategoryEn: data.subcategoryEn,
@@ -73,7 +97,7 @@ export async function POST(request: NextRequest) {
             },
         });
 
-        return NextResponse.json(project);
+        return NextResponse.json(serializeProject(project));
     } catch (error) {
         console.error('Error creating project:', error);
         return NextResponse.json({ error: 'Failed to create project' }, { status: 500 });

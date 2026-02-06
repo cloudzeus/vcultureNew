@@ -25,7 +25,8 @@ export default async function Page() {
             throw new Error('Prisma client is undefined in page.tsx');
         }
 
-        const results = await Promise.all([
+        // Batch 1: Critical Content
+        const [projectsRes, heroRes] = await Promise.all([
             p.project.findMany({
                 where: { status: 'PUBLISHED' },
                 include: { category: true },
@@ -35,8 +36,11 @@ export default async function Page() {
 
             p.heroSection.findFirst({
                 where: { active: true }
-            }).catch((e: any) => { console.error('Error fetching hero:', e); return null; }),
+            }).catch((e: any) => { console.error('Error fetching hero:', e); return null; })
+        ]);
 
+        // Batch 2: Secondary Content and Sections
+        const [journalRes, impactRes, studioRes, processRes, storyRes, btsRes, servicesRes] = await Promise.all([
             p.journalPost.findMany({
                 where: { status: 'PUBLISHED' },
                 include: {
@@ -77,6 +81,8 @@ export default async function Page() {
                 include: { services: { orderBy: { order: 'asc' } } }
             }).catch((e: any) => { console.error('Error fetching services:', e); return null; }) : Promise.resolve(null)
         ]);
+
+        const results = [projectsRes, heroRes, journalRes, impactRes, studioRes, processRes, storyRes, btsRes, servicesRes];
 
         console.log(`[${new Date().toISOString()}] Loaded home page sections.`);
 
